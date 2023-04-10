@@ -1,50 +1,73 @@
-import { Helmet } from 'react-helmet-async';
-// @mui
-import { Grid, Button, Container, Stack, Typography } from '@mui/material';
-// components
-import Iconify from '../components/iconify';
-import { BlogPostCard, BlogPostsSort, BlogPostsSearch } from '../sections/@dashboard/blog';
-// mock
-import POSTS from '../_mock/blog';
+import React from 'react';
+import '@mobiscroll/react/dist/css/mobiscroll.min.css';
+import { Datepicker, Button, Page, setOptions } from '@mobiscroll/react';
 
-// ----------------------------------------------------------------------
+setOptions({
+    theme: 'ios',
+    themeVariant: 'light'
+});
 
-const SORT_OPTIONS = [
-  { value: 'latest', label: 'Latest' },
-  { value: 'popular', label: 'Popular' },
-  { value: 'oldest', label: 'Oldest' },
-];
-
-// ----------------------------------------------------------------------
-
-export default function BlogPage() {
-  return (
-    <>
-      <Helmet>
-        <title> Dashboard: Blog | Minimal UI </title>
-      </Helmet>
-
-      <Container>
-        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-          <Typography variant="h4" gutterBottom>
-            Blog
-          </Typography>
-          <Button variant="contained" startIcon={<Iconify icon="eva:plus-fill" />}>
-            New Post
-          </Button>
-        </Stack>
-
-        <Stack mb={5} direction="row" alignItems="center" justifyContent="space-between">
-          <BlogPostsSearch posts={POSTS} />
-          <BlogPostsSort options={SORT_OPTIONS} />
-        </Stack>
-
-        <Grid container spacing={3}>
-          {POSTS.map((post, index) => (
-            <BlogPostCard key={post.id} post={post} index={index} />
-          ))}
-        </Grid>
-      </Container>
-    </>
-  );
+function App() {
+    const [openPicker, setOpenPicker] = React.useState(false);
+    const [date, setDate] = React.useState(new Date());
+    
+    const show = () => {
+        setOpenPicker(true);
+    };
+    
+    const onClose = () => {
+        setOpenPicker(false);
+    };
+    
+    const inputProps = {
+        className: 'md-mobile-picker-input',
+        placeholder: 'Please Select...'
+    };
+    
+    const boxInputProps = {
+        className: 'md-mobile-picker-box-label',
+        inputStyle: 'box',
+        placeholder: 'Please Select...'
+    };
+    
+    return (
+        <Page>
+            <div className="mbsc-grid">
+                <div className="mbsc-form-group">
+                    <div className="mbsc-row">
+                        <div className="mbsc-col-12">
+                            <div className="mbsc-txt-muted md-mobile-picker-header">Use the picker with any inputs & show on focus/click</div>
+                            <Datepicker controls={['date']} inputComponent="input" inputProps={inputProps} />
+                        </div>
+                    </div>
+                </div>
+                <div className="mbsc-form-group">
+                    <div className="mbsc-row">
+                        <div className="mbsc-col-12 mbsc-txt-muted md-mobile-picker-header">Disable <code>onClick/onFocus</code> and only show on button</div>
+                        <div className="mbsc-col-8">
+                            <Datepicker controls={['date']} inputComponent="input" inputProps={inputProps} showOnClick={false} showOnFocus={false} isOpen={openPicker} onClose={onClose} defaultValue={date} />
+                        </div>
+                        <div className="mbsc-col-4">
+                            <Button variant="outline" color="primary" className="md-mobile-picker-button" onClick={show}>Show picker</Button>
+                        </div>
+                    </div>
+                </div>
+                <div className="mbsc-form-group">
+                    <div className="mbsc-row">
+                        <div className="mbsc-col-12">
+                            <div className="mbsc-txt-muted md-mobile-picker-header">Use the picker with a Mobiscroll input</div>
+                            <Datepicker  controls={['date']} inputProps={boxInputProps} />
+                        </div>
+                    </div>
+                </div>
+                <div className="mbsc-txt-muted md-mobile-picker-header">Use the picker inline in any page</div>
+            </div>
+            <div className="md-mobile-picker-inline">
+                <Datepicker display="inline" controls={['date']} />
+            </div>
+        </Page>
+    ); 
 }
+
+
+export default App;
