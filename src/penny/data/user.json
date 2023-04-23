@@ -1,0 +1,77 @@
+[
+  {
+    "name": "장유진",
+    "isNew": true,
+    "location": null,
+    "account": [
+      {
+        "number": "12345678912345",
+        "bank": "카카오뱅크",
+        "balance": 14220421
+      },
+      {
+        "number": "23456789012345",
+        "bank": "하나은행",
+        "balance": 482920
+      }
+    ],
+    "isAuto": false,
+    "autoDonationAmount": null,
+    "currentDonationType": 1,
+    "currentDonationOrganization": "포항종합사회복지관",
+    "cuttentDonationStartDate": "2023.04.15",
+    "currentDonationAmount": 52301,
+    "totalDonationAmount": 132202,
+    "totalDonationTimes": 3
+  },
+  {
+    "name": "박성우",
+    "isNew": true,
+    "location": null,
+    "account": [
+      {
+        "number": "345678901234",
+        "bank": "카카오뱅크",
+        "balance": 3819280
+      },
+      {
+        "number": "456789012345",
+        "bank": "하나은행",
+        "balance": 255920
+      }
+    ],
+    "isAuto": true,
+    "autoDonateAmount": 500,
+    "currentDonationType": 1,
+    "currentDonationOrganization": "포항종합사회복지관",
+    "cuttentDonationStartDate": "2023.04.15",
+    "currentDonateAmount": 52301,
+    "totalDonateAmount": 132202,
+    "totalDonateTimes": 3
+  },
+  {
+    "name": "류지연",
+    "isNew": true,
+    "location": null,
+    "account": [
+      {
+        "number": "567890123456",
+        "bank": "카카오뱅크",
+        "balance": 5102200
+      },
+      {
+        "number": "678901234567",
+        "bank": "하나은행",
+        "balance": 492002
+      }
+    ],
+    "isAuto": false,
+    "autoDonateAmount": null,
+    "currentDonationType": 1,
+    "currentDonationOrganization": "포항종합사회복지관",
+    "cuttentDonationStartDate": "2023.04.15",
+    "currentDonateAmount": 52301,
+    "totalDonateAmount": 132202,
+    "totalDonateTimes": 3
+  }
+]
