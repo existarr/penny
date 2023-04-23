@@ -10,6 +10,7 @@ import Page404 from "./pages/Page404";
 import ProductsPage from "./pages/ProductsPage";
 import DashboardAppPage from "./pages/DashboardAppPage";
 import MainPage from "./pages/MainPage";
+import JsonSample from "./penny/screens/jsonSample";
 
 // ----------------------------------------------------------------------
 
@@ -25,6 +26,7 @@ export default function Router() {
         { path: "products", element: <ProductsPage /> },
         { path: "blog", element: <BlogPage /> },
         { path: "main", element: <MainPage /> },
+        { path: "jsonSample", element: <JsonSample />},
       ],
     },
     {
