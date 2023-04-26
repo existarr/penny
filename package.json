@@ -43,6 +43,7 @@
     "@faker-js/faker": "^7.6.0",
     "@iconify/react": "^4.1.0",
     "@mobiscroll/react": "https://npm.mobiscroll.com/@mobiscroll/react-trial/-/react-trial-5.23.0.tgz",
+    "@mui/icons-material": "^5.11.16",
     "@mui/lab": "^5.0.0-alpha.125",
     "@mui/material": "^5.11.16",
     "apexcharts": "^3.37.3",
