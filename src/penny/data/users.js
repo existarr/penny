@@ -17,10 +17,102 @@ const users = [
     ],
     isAuto: false,
     autoDonationAmount: null,
-    currentDonationType: 1,
+    currentDonationType: 0,
     currentDonationOrganization: "포항종합사회복지관",
     cuttentDonationStartDate: "2023.04.15",
     currentDonationAmount: 52301,
+    currentDonationHistory: [
+      {
+        donatedDate: "2023.02.24",
+        donatedAmount: 58,
+        balanceRemain: 55210,
+      },
+      {
+        donatedDate: "2023.02.24",
+        donatedAmount: 58,
+        balanceRemain: 55210,
+      },
+      {
+        donatedDate: "2023.02.24",
+        donatedAmount: 58,
+        balanceRemain: 55210,
+      },
+      {
+        donatedDate: "2023.02.24",
+        donatedAmount: 58,
+        balanceRemain: 55210,
+      },
+      {
+        donatedDate: "2023.02.24",
+        donatedAmount: 58,
+        balanceRemain: 55210,
+      },
+      {
+        donatedDate: "2023.02.24",
+        donatedAmount: 58,
+        balanceRemain: 55210,
+      },
+      {
+        donatedDate: "2023.02.24",
+        donatedAmount: 58,
+        balanceRemain: 55210,
+      },
+      {
+        donatedDate: "2023.02.24",
+        donatedAmount: 58,
+        balanceRemain: 55210,
+      },
+      {
+        donatedDate: "2023.02.24",
+        donatedAmount: 58,
+        balanceRemain: 55210,
+      },
+      {
+        donatedDate: "2023.02.24",
+        donatedAmount: 58,
+        balanceRemain: 55210,
+      },
+      {
+        donatedDate: "2023.02.24",
+        donatedAmount: 58,
+        balanceRemain: 55210,
+      },
+      {
+        donatedDate: "2023.02.24",
+        donatedAmount: 58,
+        balanceRemain: 55210,
+      },
+      {
+        donatedDate: "2023.02.24",
+        donatedAmount: 58,
+        balanceRemain: 55210,
+      },
+      {
+        donatedDate: "2023.02.24",
+        donatedAmount: 58,
+        balanceRemain: 55210,
+      },
+      {
+        donatedDate: "2023.02.24",
+        donatedAmount: 58,
+        balanceRemain: 55210,
+      },
+      {
+        donatedDate: "2023.02.24",
+        donatedAmount: 58,
+        balanceRemain: 55210,
+      },
+      {
+        donatedDate: "2023.02.24",
+        donatedAmount: 58,
+        balanceRemain: 55210,
+      },
+      {
+        donatedDate: "2023.02.24",
+        donatedAmount: 58,
+        balanceRemain: 55210,
+      },
+    ],
     totalDonationAmount: 132202,
     totalDonationTimes: 3,
   },

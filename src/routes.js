@@ -11,12 +11,16 @@ import ProductsPage from "./pages/ProductsPage";
 import DashboardAppPage from "./pages/DashboardAppPage";
 import MainPage from "./pages/MainPage";
 import JsonSample from "./penny/screens/jsonSample";
+<<<<<<< HEAD
 import Home from "./penny/screens/home";
 import StartDonation from "./penny/screens/startDonation";
 import SetupPage from "./penny/screens/setupPage";
 import Donation from "./penny/screens/donation";
 import Home2 from "./penny/screens/home2";
 import Home3 from "./penny/screens/home3";
+=======
+import SingleDonationScreen from "./penny/screens/SingleDonationScreen";
+>>>>>>> c28f25e0e387702953542812af2393fe78c35359
 
 // ----------------------------------------------------------------------
 
@@ -39,6 +43,14 @@ export default function Router() {
         { path: "donation", element: <Donation />},
         { path: "home2", element: <Home2 />},
         { path: "home3", element: <Home3 />},
+      ],
+    },
+    {
+      path: "/penny",
+      element: <DashboardLayout />,
+      children: [
+        {element: <Navigate to="/penny/singleDonation" />, index: true},
+        {path: "singleDonation", element: <SingleDonationScreen /> },
       ],
     },
     {
