@@ -11,6 +11,7 @@ import ProductsPage from "./pages/ProductsPage";
 import DashboardAppPage from "./pages/DashboardAppPage";
 import MainPage from "./pages/MainPage";
 import JsonSample from "./penny/screens/jsonSample";
+import SingleDonationScreen from "./penny/screens/SingleDonationScreen";
 
 // ----------------------------------------------------------------------
 
@@ -27,6 +28,14 @@ export default function Router() {
         { path: "blog", element: <BlogPage /> },
         { path: "main", element: <MainPage /> },
         { path: "jsonSample", element: <JsonSample />},
+      ],
+    },
+    {
+      path: "/penny",
+      element: <DashboardLayout />,
+      children: [
+        {element: <Navigate to="/penny/singleDonation" />, index: true},
+        {path: "singleDonation", element: <SingleDonationScreen /> },
       ],
     },
     {
