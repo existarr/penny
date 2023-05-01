@@ -3,7 +3,15 @@ import './style.css';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
+import {Typography } from "@mui/material";
 
+import user from "../data/users";
+
+
+var accountInfo = [];
+user.map((u) => {
+  u.account.map((acc, index) => (accountInfo[index] = acc));
+});
 
 export default function App() {
   return (
@@ -13,19 +21,23 @@ export default function App() {
                 <Button><ArrowBackIosIcon/></Button>
             </Grid>
             <Grid item xs={5}>
-                손가은
+            {user.map((u) => (
+            <Typography variant="h5" gutterBottom>
+              {u.name}
+            </Typography>
+          ))}
             </Grid>
             <Grid item xs={2}>
                 <Button>취소</Button>
             </Grid>
             
         </Grid>
-        <p style={{textAlign: "center"}}>기업 15812826701015</p>
+        <p style={{textAlign: "center"}}>{accountInfo.length > 0 && accountInfo[0].bank} {accountInfo.length > 0 && accountInfo[0].number}</p>
         <br/>
         <h1 style={{textAlign: "center"}}>58원</h1>
         <br/>
         
-        <p style={{textAlign: "center"}}>잔액: 732,058</p>
+        <p style={{textAlign: "center"}}>잔액: {accountInfo.length > 0 && accountInfo[0].balance}</p>
         <br/>
         <p style={{textAlign: "center"}}>모금 후 예상 잔액: 732,000원</p>
         <br/>

@@ -1,18 +1,20 @@
 import * as React from 'react';
 import './style.css';
-
+import Button from '@mui/material/Button';
 import Avatar from '@mui/material/Avatar';
-
+import Grid from '@mui/material/Grid';
 import Chip from '@mui/material/Chip';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import SettingsIcon from '@mui/icons-material/Settings';
+import { Typography } from "@mui/material";
+
 import user from "../data/users";
-import { Grid, Button, Container, Stack, Typography } from "@mui/material";
 
 var accountInfo = [];
 user.map((u) => {
   u.account.map((acc, index) => (accountInfo[index] = acc));
 });
+
 
 export default function App() {
   return (
@@ -36,18 +38,8 @@ export default function App() {
           <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
         </Grid>
       </Grid>
-      <Button 
-      type="submit" 
-      fullWidth 
-      variant="contained" 
-      sx={{ mt: 3, mb: 2 }}
-      style={{ backgroundColor: 'white' , color:'black'}}
-      >
-        우리 같이 Penny 하지 않을래?
-        
-      </Button>
       
-        <Grid container spacing={3} style={{ backgroundColor:'pink'}}>
+      <Grid container spacing={3} style={{ backgroundColor:'pink'}}>
           <Grid item xs={2}>
             <Avatar>B</Avatar>
           </Grid>
@@ -83,11 +75,69 @@ export default function App() {
             </Button>
           </Grid>
         </Grid>
-
-        <div></div>
+       
     
       
-      
+        <Grid container spacing={3} style={{ backgroundColor:'lightblue'}}>
+          <Grid item xs={2}>
+            <Avatar>B</Avatar>
+          </Grid>
+          <Grid item xs={8}>
+            Penny
+          </Grid>
+          <Grid item xs={2}>
+            <Button><SettingsIcon/></Button>
+          </Grid>
+          
+        
+        
+          {/* {accountInfo.map((acc) => ( */}
+            <Grid item >
+              
+              {/* {acc.balance} */}
+              {accountInfo.length > 0 && accountInfo[0].balance}원
+              
+              
+            </Grid>
+          {/* ))} */}
+        
+          
+          <Grid item>
+            <Button type="submit" variant="contained" sx={{ mt: 3, mb: 2 }}>
+              개인모금
+            </Button>
+            <Button type="submit" variant="contained" sx={{ mt: 3, mb: 2 }}>
+              자동모금
+            </Button>
+            <Button type="submit" variant="contained" sx={{ mt: 3, mb: 2 }}>
+              내역
+            </Button>
+          </Grid>
+        </Grid>
+
+      <Grid container spacing={2}>
+        <Grid item xs={8}>
+          수동모금
+        </Grid>
+        <Grid item xs={4}>
+          
+        </Grid>
+        <Grid item xs={8}>
+          단위
+        </Grid>
+        <Grid item xs={4}>
+          <Button type="submit" variant="contained" sx={{ mt: 3, mb: 2 }}>
+            1원
+          </Button>
+          <Button type="submit" variant="contained" sx={{ mt: 3, mb: 2 }}>
+            10원
+          </Button>
+          <Button type="submit" variant="contained" sx={{ mt: 3, mb: 2 }}>
+            100원
+          </Button>
+        </Grid>
+      </Grid>
+
       
     </div>
   );
