@@ -5,24 +5,31 @@ import MenuItem from '@mui/material/MenuItem';
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
 
+//import user data
+import user from "../data/users";
+
+var accountInfo = [];
+user.map((u) => {
+  u.account.map((acc, index) => (accountInfo[index] = acc));
+});
+
 export default function App() {
 
   return (
     <div>
-        <Grid container>
-            <Grid item xs>
-                Penny 기본 설정
-            </Grid>
-            <Grid item>
-                <Button>닫기</Button>
-            </Grid>
-      </Grid>
+        
+      <p style={{ textAlign: 'center'}}>Penny 기본 설정</p>
+      <Button style={{float: 'right'}}>닫기</Button>
+      <br/>
         연동할 계좌를 선택해주세요
         <br/>
         <Select
           
         >
-          <MenuItem value={10}>카카오 123-456-7890</MenuItem>
+          {accountInfo.map((acc) => (
+             <MenuItem value={acc.bank + "-" + acc.number}>{acc.bank}-{acc.number}</MenuItem>
+          ))}
+
           
         </Select>
         <br/>
