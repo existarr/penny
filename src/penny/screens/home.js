@@ -1,5 +1,4 @@
 import * as React from 'react';
-import './style.css';
 
 import Avatar from '@mui/material/Avatar';
 
@@ -7,7 +6,7 @@ import Chip from '@mui/material/Chip';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import SettingsIcon from '@mui/icons-material/Settings';
 import user from "../data/users";
-import { Grid, Button, Container, Stack, Typography } from "@mui/material";
+import { Card, Grid, Button, Container, Stack, Typography } from "@mui/material";
 
 var accountInfo = [];
 user.map((u) => {
@@ -16,9 +15,8 @@ user.map((u) => {
 
 export default function App() {
   return (
-    <div style={{
-      backgroundColor: 'gray'
-    }}>
+    <div style={{backgroundColor: 'gray',
+    fontFamily: 'lato'}}>
       <Grid container spacing={1}>
         <Grid item xs={2}>
         {user.map((u) => (
@@ -40,18 +38,31 @@ export default function App() {
       type="submit" 
       fullWidth 
       variant="contained" 
-      sx={{ mt: 3, mb: 2 }}
-      style={{ backgroundColor: 'white' , color:'black'}}
+      sx={{ mt: 3, mb: 2 }} style={{
+        backgroundColor: 'white',
+        color: 'black',
+        justifyContent: 'center',
+        width: '355px',
+        textAlign: 'left',
+        marginLeft: '2%',
+        marginTop: '5px',
+        height: '56px'
+
+      }}
       >
         우리 같이 Penny 하지 않을래?
         
+        
       </Button>
-      
-        <Grid container spacing={3} style={{ backgroundColor:'pink'}}>
-          <Grid item xs={2}>
-            <Avatar>B</Avatar>
-          </Grid>
-          <Grid item xs={8}>
+      <Card style={{backgroundColor: '#EBC5C8',
+    marginTop: '10px',
+    marginLeft: '10px',
+    marginRight: '10px',
+    marginBottom: '5px'
+    }}>
+        <Grid container spacing={3}>
+          
+          <Grid item xs={10}>
             잔액
           </Grid>
           <Grid item xs={2}>
@@ -84,11 +95,46 @@ export default function App() {
           </Grid>
         </Grid>
 
-        <div></div>
-    
-      
-      
-      
+      </Card>
+
+      <Card style={{
+        backgroundColor: '#BFDDFB',
+        marginTop: '10px',
+        marginLeft: '10px',
+        marginRight: '10px',
+        marginBottom: '5px'
+      }}>
+        <Grid container spacing={3}>
+          
+          <Grid item xs={10}>
+            {accountInfo.length > 0 && accountInfo[1].bank}
+          </Grid>
+          <Grid item xs={2}>
+            <Button><MoreHorizIcon/></Button>
+          </Grid>
+          
+        
+        
+          {/* {accountInfo.map((acc) => ( */}
+            <Grid item >
+              
+              {/* {acc.balance} */}
+              {accountInfo.length > 0 && accountInfo[1].balance}원
+              
+              
+            </Grid>
+          {/* ))} */}
+        
+          
+          <Grid item>
+            
+            <Button type="submit" variant="contained" sx={{ mt: 3, mb: 2 }}>
+              이체
+            </Button>
+           
+          </Grid>
+        </Grid>
+      </Card>
     </div>
   );
 }

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import './style.css';
+
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';

@@ -1,9 +1,9 @@
 import * as React from 'react';
-import './style.css';
+
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import Button from '@mui/material/Button';
-import Grid from '@mui/material/Grid';
+
 
 //import user data
 import user from "../data/users";
@@ -45,28 +45,22 @@ export default function App() {
         <br/>
         금액 단위 선택
         <br/>
-        <Select
-          
-        >
+        <Select>
           <MenuItem value={10}>1원 단위</MenuItem>
           <MenuItem value={20}>10원 단위</MenuItem>
           <MenuItem value={30}>100원 단위</MenuItem>
-          
         </Select>
         <br/>
         기부 방식(기부 마감 후 변경 가능)
         <br/>
-        <Select
-          
-        >
+        <Select>
           <MenuItem value={10}>개인 기부</MenuItem>
           <MenuItem value={20}>함께 기부</MenuItem>
-          
         </Select>
         <br/>
         <Button >나의 위치 찾기</Button>
         <br/>
-        <Button variant="contained" fullWidth style={{backgroundColor: 'yellow', color: 'black'}}>Penny 신청하기</Button>
+        <Button variant="contained" fullWidth style={{backgroundColor: '#F7E676', borderColor: '#F7E676', width: '100%', height: '50px'}}>Penny 신청하기</Button>
 
     </div>
   );
