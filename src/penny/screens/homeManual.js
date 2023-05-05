@@ -1,5 +1,5 @@
 import * as React from 'react';
-import './style.css';
+
 import Button from '@mui/material/Button';
 import Avatar from '@mui/material/Avatar';
 import Grid from '@mui/material/Grid';
@@ -52,15 +52,15 @@ export default function App() {
           
         
         
-          {/* {accountInfo.map((acc) => ( */}
+          
             <Grid item >
               
-              {/* {acc.balance} */}
+              
               {accountInfo.length > 0 && accountInfo[0].balance}원
               
               
             </Grid>
-          {/* ))} */}
+         
         
           
           <Grid item>
@@ -80,7 +80,7 @@ export default function App() {
       
         <Grid container spacing={3} style={{ backgroundColor:'lightblue'}}>
           <Grid item xs={2}>
-            <Avatar>B</Avatar>
+            <Avatar>P</Avatar>
           </Grid>
           <Grid item xs={8}>
             Penny
@@ -91,15 +91,15 @@ export default function App() {
           
         
         
-          {/* {accountInfo.map((acc) => ( */}
+          
             <Grid item >
-              
-              {/* {acc.balance} */}
-              {accountInfo.length > 0 && accountInfo[0].balance}원
-              
-              
+            {user.map((u) => (
+            <Typography variant="h5" gutterBottom>
+              {u.totalDonationAmount}원
+            </Typography>
+          ))}
             </Grid>
-          {/* ))} */}
+          
         
           
           <Grid item>
@@ -115,29 +115,30 @@ export default function App() {
           </Grid>
         </Grid>
 
-      <Grid container spacing={2}>
-        <Grid item xs={8}>
-          수동모금
-        </Grid>
-        <Grid item xs={4}>
-          
-        </Grid>
-        <Grid item xs={8}>
-          단위
-        </Grid>
-        <Grid item xs={4}>
-          <Button type="submit" variant="contained" sx={{ mt: 3, mb: 2 }}>
-            1원
-          </Button>
-          <Button type="submit" variant="contained" sx={{ mt: 3, mb: 2 }}>
-            10원
-          </Button>
-          <Button type="submit" variant="contained" sx={{ mt: 3, mb: 2 }}>
-            100원
-          </Button>
-        </Grid>
-      </Grid>
 
+        <Grid container spacing={2} style={{ backgroundColor:'yellow'}}>
+          
+          <Grid item xs={12}>
+            수동모금
+          </Grid>
+         
+          <Grid item xs={2}>
+              단위
+          </Grid>
+          
+    
+          <Grid item xs={10}>
+            <Button type="submit" variant="contained" sx={{ mt: 3, mb: 2 }}>
+              1원
+            </Button>
+            <Button type="submit" variant="contained" sx={{ mt: 3, mb: 2 }}>
+              10원
+            </Button>
+            <Button type="submit" variant="contained" sx={{ mt: 3, mb: 2 }}>
+              100원
+            </Button>
+          </Grid>
+        </Grid>
       
     </div>
   );

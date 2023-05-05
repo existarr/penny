@@ -1,5 +1,5 @@
 import * as React from 'react';
-import './style.css';
+
 import Button from '@mui/material/Button';
 import Avatar from '@mui/material/Avatar';
 import Grid from '@mui/material/Grid';
@@ -49,34 +49,21 @@ export default function App() {
           <Grid item xs={2}>
             <Button><MoreHorizIcon/></Button>
           </Grid>
-          
-        
-        
-          {/* {accountInfo.map((acc) => ( */}
             <Grid item >
-              
-              {/* {acc.balance} */}
               {accountInfo.length > 0 && accountInfo[0].balance}원
-              
-              
             </Grid>
-          {/* ))} */}
-        
-          
-          <Grid item>
-            <Button type="submit" variant="contained" sx={{ mt: 3, mb: 2 }}>
-              카드
-            </Button>
-            <Button type="submit" variant="contained" sx={{ mt: 3, mb: 2 }}>
-              이체
-            </Button>
-            <Button type="submit" variant="contained" sx={{ mt: 3, mb: 2 }}>
-              수동
-            </Button>
-          </Grid>
+            <Grid item>
+              <Button type="submit" variant="contained" sx={{ mt: 3, mb: 2 }}>
+                카드
+              </Button>
+              <Button type="submit" variant="contained" sx={{ mt: 3, mb: 2 }}>
+                이체
+              </Button>
+              <Button type="submit" variant="contained" sx={{ mt: 3, mb: 2 }}>
+                수동
+              </Button>
+            </Grid>
         </Grid>
-       
-    
       
         <Grid container spacing={3} style={{ backgroundColor:'lightblue'}}>
           <Grid item xs={2}>
@@ -89,18 +76,13 @@ export default function App() {
             <Button><SettingsIcon/></Button>
           </Grid>
           
-        
-        
-          {/* {accountInfo.map((acc) => ( */}
-            <Grid item >
-              
-              {/* {acc.balance} */}
-              {accountInfo.length > 0 && accountInfo[0].balance}원
-              
-              
-            </Grid>
-          {/* ))} */}
-        
+          <Grid item >
+            {user.map((u) => (
+            <Typography variant="h5" gutterBottom>
+              {u.totalDonationAmount}원
+            </Typography>
+          ))}
+            </Grid>       
           
           <Grid item>
             <Button type="submit" variant="contained" sx={{ mt: 3, mb: 2 }}>
