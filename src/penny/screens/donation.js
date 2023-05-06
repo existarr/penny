@@ -1,5 +1,5 @@
 import * as React from 'react';
-import './style.css';
+
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
@@ -34,12 +34,12 @@ export default function App() {
         </Grid>
         <p style={{textAlign: "center"}}>{accountInfo.length > 0 && accountInfo[0].bank} {accountInfo.length > 0 && accountInfo[0].number}</p>
         <br/>
-        <h1 style={{textAlign: "center"}}>58원</h1>
+        <h1 style={{textAlign: "center"}}>421원</h1>
         <br/>
         
         <p style={{textAlign: "center"}}>잔액: {accountInfo.length > 0 && accountInfo[0].balance}</p>
         <br/>
-        <p style={{textAlign: "center"}}>모금 후 예상 잔액: 732,000원</p>
+        <p style={{textAlign: "center"}}>모금 후 예상 잔액: {accountInfo.length > 0 && accountInfo[0].balance-421}</p>
         <br/>
         <p style={{textAlign: "center"}}>위의 금액을 모금하시겠습니까?</p>
         <br/>

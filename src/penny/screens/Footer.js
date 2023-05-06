@@ -3,14 +3,14 @@ import PropTypes from 'prop-types';
 import { styled } from '@mui/material/styles';
 import { Box, Stack, AppBar, Toolbar, IconButton } from '@mui/material';
 // utils
-import { bgBlur } from '../../../utils/cssStyles';
+import { bgBlur } from '../../utils/cssStyles';
 // components
-import Iconify from '../../../components/iconify';
+import Iconify from '../../components/iconify';
 //
-import Searchbar from './Searchbar';
-import AccountPopover from './AccountPopover';
-import LanguagePopover from './LanguagePopover';
-import NotificationsPopover from './NotificationsPopover';
+import Searchbar from '../../layouts/dashboard/header/Searchbar';
+import AccountPopover from '../../layouts/dashboard/header/AccountPopover';
+import LanguagePopover from '../../layouts/dashboard/header/LanguagePopover';
+import NotificationsPopover from '../../layouts/dashboard/header/NotificationsPopover';
 
 // ----------------------------------------------------------------------
 
@@ -34,15 +34,19 @@ const StyledToolbar = styled(Toolbar)(({ theme }) => ({
     minHeight: HEADER_DESKTOP,
     padding: theme.spacing(0, 5),
   },
+  position: 'fixed',
+  bottom: 0,
+  right: 0,
+  left: 0,
 }));
 
 // ----------------------------------------------------------------------
 
-Header.propTypes = {
+Footer.propTypes = {
   onOpenNav: PropTypes.func,
 };
 
-export default function Header({ onOpenNav }) {
+export default function Footer({ onOpenNav }) {
   return (
     <StyledRoot>
       <StyledToolbar>
@@ -68,7 +72,7 @@ export default function Header({ onOpenNav }) {
             sm: 1,
           }}
         >
-          {/* <LanguagePopover /> */}
+          <LanguagePopover />
           <NotificationsPopover />
           <AccountPopover />
         </Stack>
