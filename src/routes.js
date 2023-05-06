@@ -42,8 +42,8 @@ export default function Router() {
         { path: "donation", element: <Donation />},
         { path: "homeManual", element: <HomeManual />},
         { path: "homeAuto", element: <HomeAuto />},
-        { path: "listofcenter", element: <Targetamount />},
-        { path: "targetamount", element: <ListofCenter />}
+        { path: "targetamount", element: <Targetamount />},
+        { path: "listofcenter", element: <ListofCenter />}
       ],
     },
     {
