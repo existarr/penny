@@ -40,7 +40,6 @@ export default function Router() {
         { path: "donation", element: <Donation />},
         { path: "homeManual", element: <HomeManual />},
         { path: "homeAuto", element: <HomeAuto />},
-        
       ],
     },
     {
