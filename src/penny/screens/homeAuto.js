@@ -6,7 +6,7 @@ import Grid from '@mui/material/Grid';
 import Chip from '@mui/material/Chip';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import SettingsIcon from '@mui/icons-material/Settings';
-import { Typography } from "@mui/material";
+import { Typography, Card } from "@mui/material";
 
 import user from "../data/users";
 
@@ -38,33 +38,46 @@ export default function App() {
           <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
         </Grid>
       </Grid>
-      
-      <Grid container spacing={3} style={{ backgroundColor:'pink'}}>
-          <Grid item xs={2}>
-            <Avatar>B</Avatar>
-          </Grid>
-          <Grid item xs={8}>
-            잔액
-          </Grid>
-          <Grid item xs={2}>
-            <Button><MoreHorizIcon/></Button>
-          </Grid>
-            <Grid item >
-              {accountInfo.length > 0 && accountInfo[0].balance}원
+
+      <Card>
+        <div>
+          <p>
+            10만명 X 100원 = "3억"
+          </p>
+          <p>티끌의 힘!</p>
+        </div>
+      </Card>
+
+
+      <Card>
+        <Grid container spacing={3} style={{ backgroundColor:'pink'}}>
+            <Grid item xs={2}>
+              <Avatar>B</Avatar>
             </Grid>
-            <Grid item>
-              <Button type="submit" variant="contained" sx={{ mt: 3, mb: 2 }}>
-                카드
-              </Button>
-              <Button type="submit" variant="contained" sx={{ mt: 3, mb: 2 }}>
-                이체
-              </Button>
-              <Button type="submit" variant="contained" sx={{ mt: 3, mb: 2 }}>
-                수동
-              </Button>
+            <Grid item xs={8}>
+              잔액
             </Grid>
-        </Grid>
+            <Grid item xs={2}>
+              <Button><MoreHorizIcon/></Button>
+            </Grid>
+              <Grid item >
+                {accountInfo.length > 0 && accountInfo[0].balance}원
+              </Grid>
+              <Grid item>
+                <Button type="submit" variant="contained" sx={{ mt: 3, mb: 2 }}>
+                  카드
+                </Button>
+                <Button type="submit" variant="contained" sx={{ mt: 3, mb: 2 }}>
+                  이체
+                </Button>
+                <Button type="submit" variant="contained" sx={{ mt: 3, mb: 2 }}>
+                  수동
+                </Button>
+              </Grid>
+          </Grid>
+        </Card>
       
+      <Card>
         <Grid container spacing={3} style={{ backgroundColor:'lightblue'}}>
           <Grid item xs={2}>
             <Avatar>B</Avatar>
@@ -78,8 +91,8 @@ export default function App() {
           
           <Grid item >
             {user.map((u) => (
-            <Typography variant="h5" gutterBottom>
-              {u.totalDonationAmount}원
+            <Typography>
+              {u.currentDonationAmount}원
             </Typography>
           ))}
             </Grid>       
@@ -96,6 +109,7 @@ export default function App() {
             </Button>
           </Grid>
         </Grid>
+      </Card>
 
       
     </div>
