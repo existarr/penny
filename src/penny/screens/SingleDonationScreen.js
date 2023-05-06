@@ -24,6 +24,7 @@ export default function SingleDonation() {
   const [donationData, setDonationData] = useState({});
   const [donationHistory, setDonationHistory] = useState([]);
   const [targetAmount, setTargetAmount] = useState();
+  const [screenHeight, setScreenHeight] = useState(window.innerHeight);
   useEffect(() => {
     setDonationData(
       user.map((u) => ({
@@ -57,7 +58,7 @@ export default function SingleDonation() {
       </Helmet>
 
       <Container
-        style={{ background: "lightblue", height: "220px", paddingTop: "10px" }}
+        style={{ background: "lightblue", height: screenHeight * 0.3, paddingTop: "20px" }}
       >
         <div
           style={{
@@ -95,7 +96,7 @@ export default function SingleDonation() {
         <div></div>
       </Container>
       <Container
-        style={{ background: "white", height: "360px", overflow: "auto" }}
+        style={{ background: "white", height: screenHeight * 0.6, overflow: "auto" }}
       >
         <div>
           {donationHistory.map((h) => (
