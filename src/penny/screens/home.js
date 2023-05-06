@@ -4,9 +4,8 @@ import Avatar from '@mui/material/Avatar';
 
 import Chip from '@mui/material/Chip';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
-import SettingsIcon from '@mui/icons-material/Settings';
 import user from "../data/users";
-import { Card, Grid, Button, Container, Stack, Typography } from "@mui/material";
+import { Card, Grid, Button, Typography } from "@mui/material";
 
 var accountInfo = [];
 user.map((u) => {
@@ -68,20 +67,9 @@ export default function App() {
           <Grid item xs={2}>
             <Button><MoreHorizIcon/></Button>
           </Grid>
-          
-        
-        
-          {/* {accountInfo.map((acc) => ( */}
             <Grid item >
-              
-              {/* {acc.balance} */}
               {accountInfo.length > 0 && accountInfo[0].balance}원
-              
-              
             </Grid>
-          {/* ))} */}
-        
-          
           <Grid item>
             <Button type="submit" variant="contained" sx={{ mt: 3, mb: 2 }}>
               카드
@@ -112,22 +100,11 @@ export default function App() {
           <Grid item xs={2}>
             <Button><MoreHorizIcon/></Button>
           </Grid>
-          
-        
-        
-          {/* {accountInfo.map((acc) => ( */}
             <Grid item >
-              
-              {/* {acc.balance} */}
               {accountInfo.length > 0 && accountInfo[1].balance}원
-              
-              
             </Grid>
-          {/* ))} */}
-        
           
           <Grid item>
-            
             <Button type="submit" variant="contained" sx={{ mt: 3, mb: 2 }}>
               이체
             </Button>

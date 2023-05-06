@@ -26,6 +26,7 @@ export default function App() {
       <div style={{backgroundColor: '#BFDDFB'}}>
         <h2 style={{textAlign: 'center'}}>티끌 모아 태산!</h2>
         <h2 style={{textAlign: 'center'}}>Penny 와 함께 기부하자</h2>
+        <p>10만명 X 100원 = "3억"</p>
         <p style={{textAlign: 'center'}}>Penny는 “티끌모아 태산”이라는 속담의 의미를 믿습니다.</p>
         <p style={{textAlign: 'center'}}>약 10만명의 사용자가 “하루 100원씩”만 기부해도
   한달이면 “3억”을 기부할 수 있습니다.</p>

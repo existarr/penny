@@ -6,7 +6,7 @@ import Grid from '@mui/material/Grid';
 import Chip from '@mui/material/Chip';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import SettingsIcon from '@mui/icons-material/Settings';
-import { Typography } from "@mui/material";
+import { Typography, Card } from "@mui/material";
 
 import user from "../data/users";
 
@@ -38,8 +38,18 @@ export default function App() {
           <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
         </Grid>
       </Grid>
+
+      <Card>
+        <div>
+          <p>
+            10만명 X 100원 = "3억"
+          </p>
+          <p>티끌의 힘!</p>
+        </div>
+      </Card>
       
-      <Grid container spacing={3} style={{ backgroundColor:'pink'}}>
+
+      <Card><Grid container spacing={3} style={{ backgroundColor:'pink'}}>
           <Grid item xs={2}>
             <Avatar>B</Avatar>
           </Grid>
@@ -75,10 +85,10 @@ export default function App() {
             </Button>
           </Grid>
         </Grid>
-       
+       </Card>
     
       
-        <Grid container spacing={3} style={{ backgroundColor:'lightblue'}}>
+      <Card> <Grid container spacing={3} style={{ backgroundColor:'lightblue'}}>
           <Grid item xs={2}>
             <Avatar>P</Avatar>
           </Grid>
@@ -94,8 +104,8 @@ export default function App() {
           
             <Grid item >
             {user.map((u) => (
-            <Typography variant="h5" gutterBottom>
-              {u.totalDonationAmount}원
+            <Typography>
+              {u.currentDonationAmount}원
             </Typography>
           ))}
             </Grid>
@@ -114,9 +124,9 @@ export default function App() {
             </Button>
           </Grid>
         </Grid>
-
-
-        <Grid container spacing={2} style={{ backgroundColor:'yellow'}}>
+</Card>
+       
+      <Card><Grid container spacing={2} style={{ backgroundColor:'yellow'}}>
           
           <Grid item xs={12}>
             수동모금
@@ -138,7 +148,8 @@ export default function App() {
               100원
             </Button>
           </Grid>
-        </Grid>
+        </Grid></Card>
+        
       
     </div>
   );
