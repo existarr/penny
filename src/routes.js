@@ -18,8 +18,10 @@ import Donation from "./penny/screens/donation";
 import HomeManual from "./penny/screens/homeManual";
 import HomeAuto from "./penny/screens/homeAuto";
 import SingleDonationScreen from "./penny/screens/SingleDonationScreen";
-
-// ----------------------------------------------------------------------
+import DonationLayout from "./penny/screens/DonationLayout";
+import Targetamount from "./penny/screens/targetamount"
+import ListofCenter from "./penny/screens/listofcenter"
+// ———————————————————————————————————
 
 export default function Router() {
   const routes = useRoutes([
@@ -40,11 +42,13 @@ export default function Router() {
         { path: "donation", element: <Donation />},
         { path: "homeManual", element: <HomeManual />},
         { path: "homeAuto", element: <HomeAuto />},
+        { path: "listofcenter", element: <Targetamount />},
+        { path: "targetamount", element: <ListofCenter />}
       ],
     },
     {
       path: "/penny",
-      element: <DashboardLayout />,
+      element: <DonationLayout />,
       children: [
         {element: <Navigate to="/penny/singleDonation" />, index: true},
         {path: "singleDonation", element: <SingleDonationScreen /> },
