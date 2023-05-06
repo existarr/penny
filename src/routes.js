@@ -15,8 +15,8 @@ import Home from "./penny/screens/home";
 import StartDonation from "./penny/screens/startDonation";
 import SetupPage from "./penny/screens/setupPage";
 import Donation from "./penny/screens/donation";
-import Home2 from "./penny/screens/home2";
-import Home3 from "./penny/screens/home3";
+import HomeManual from "./penny/screens/homeManual";
+import HomeAuto from "./penny/screens/homeAuto";
 import SingleDonationScreen from "./penny/screens/SingleDonationScreen";
 
 // ----------------------------------------------------------------------
@@ -38,8 +38,8 @@ export default function Router() {
         { path: "startDonation", element: <StartDonation />},
         { path: "setupPage", element: <SetupPage />},
         { path: "donation", element: <Donation />},
-        { path: "home2", element: <Home2 />},
-        { path: "home3", element: <Home3 />},
+        { path: "homeManual", element: <HomeManual />},
+        { path: "homeAuto", element: <HomeAuto />},
       ],
     },
     {
