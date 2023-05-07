@@ -13,7 +13,7 @@ NavSection.propTypes = {
 
 export default function NavSection({ data = [], ...other }) {
   return (
-    <Box {...other}>
+    <Box style={{background: '#F7F7F7', marginTop: '-20px'}} {...other}>
       <List disablePadding sx={{ p: 1 }}>
         {data.map((item) => (
           <NavItem key={item.title} item={item} />
