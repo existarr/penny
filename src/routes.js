@@ -18,6 +18,8 @@ import Donation from "./penny/screens/donation";
 import HomeManual from "./penny/screens/homeManual";
 import HomeAuto from "./penny/screens/homeAuto";
 import SingleDonationScreen from "./penny/screens/SingleDonationScreen";
+import GroupDonationScreen from "./penny/screens/GroupDonationScreen";
+import DonationHistoryScreen from"./penny/screens/DonationHistoryScreen";
 import DonationLayout from "./penny/screens/DonationLayout";
 import Targetamount from "./penny/screens/targetamount"
 import ListofCenter from "./penny/screens/listofcenter"
@@ -36,14 +38,6 @@ export default function Router() {
         { path: "blog", element: <BlogPage /> },
         { path: "main", element: <MainPage /> },
         { path: "jsonSample", element: <JsonSample />},
-        { path: "home", element: <Home />},
-        { path: "startDonation", element: <StartDonation />},
-        { path: "setupPage", element: <SetupPage />},
-        { path: "donation", element: <Donation />},
-        { path: "homeManual", element: <HomeManual />},
-        { path: "homeAuto", element: <HomeAuto />},
-        { path: "targetamount", element: <Targetamount />},
-        { path: "listofcenter", element: <ListofCenter />}
       ],
     },
     {
@@ -51,7 +45,17 @@ export default function Router() {
       element: <DonationLayout />,
       children: [
         {element: <Navigate to="/penny/singleDonation" />, index: true},
+        { path: "home", element: <Home />},
+        { path: "startDonation", element: <StartDonation />},
+        { path: "setup", element: <SetupPage />},
+        { path: "donation", element: <Donation />},
+        { path: "homeManual", element: <HomeManual />},
+        { path: "homeAuto", element: <HomeAuto />},
+        { path: "targetamount", element: <Targetamount />},
+        { path: "listofcenter", element: <ListofCenter />},
         {path: "singleDonation", element: <SingleDonationScreen /> },
+        {path: "groupDonation", element: <GroupDonationScreen /> },
+        {path: "donationHistory", element: <DonationHistoryScreen />},
       ],
     },
     {

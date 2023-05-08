@@ -4,7 +4,7 @@ import { Outlet } from 'react-router-dom';
 import { styled } from '@mui/material/styles';
 //
 // import Header from './header';
-import Nav from '../../layouts/dashboard/nav';
+import Nav from '../footer';
 import Footer from './Footer';
 
 // ----------------------------------------------------------------------
@@ -33,7 +33,7 @@ const Main = styled('div')(({ theme }) => ({
 
 // ----------------------------------------------------------------------
 
-export default function DashboardLayout() {
+export default function DonationLayout() {
   const [open, setOpen] = useState(false);
 
   return (

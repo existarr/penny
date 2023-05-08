@@ -21,6 +21,7 @@ const users = [
     currentDonationOrganization: "포항종합사회복지관",
     cuttentDonationStartDate: "2023.04.15",
     currentDonationAmount: 52301,
+    targetDonationAmount: 200000,
     currentDonationHistory: [
       {
         donatedDate: "2023.02.24",
