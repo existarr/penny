@@ -21,8 +21,9 @@ import SingleDonationScreen from "./penny/screens/SingleDonationScreen";
 import GroupDonationScreen from "./penny/screens/GroupDonationScreen";
 import DonationHistoryScreen from"./penny/screens/DonationHistoryScreen";
 import DonationLayout from "./penny/screens/DonationLayout";
-import Targetamount from "./penny/screens/targetamount"
-import ListofCenter from "./penny/screens/listofcenter"
+import Targetamount from "./penny/screens/targetamount";
+import ListofCenter from "./penny/screens/listofcenter";
+import OrganizationDetail from "./penny/screens/OrganizationDetailScreen";
 // ———————————————————————————————————
 
 export default function Router() {
@@ -44,7 +45,7 @@ export default function Router() {
       path: "/penny",
       element: <DonationLayout />,
       children: [
-        {element: <Navigate to="/penny/singleDonation" />, index: true},
+        {element: <Navigate to="/penny/home" />, index: true},
         { path: "home", element: <Home />},
         { path: "startDonation", element: <StartDonation />},
         { path: "setup", element: <SetupPage />},
@@ -53,6 +54,7 @@ export default function Router() {
         { path: "homeAuto", element: <HomeAuto />},
         { path: "targetamount", element: <Targetamount />},
         { path: "listofcenter", element: <ListofCenter />},
+        { path: "organization-detail", element: <OrganizationDetail />},
         {path: "singleDonation", element: <SingleDonationScreen /> },
         {path: "groupDonation", element: <GroupDonationScreen /> },
         {path: "donationHistory", element: <DonationHistoryScreen />},

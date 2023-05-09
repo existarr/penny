@@ -28,7 +28,7 @@ export default function SingleDonation() {
   const [targetAmount, setTargetAmount] = useState();
   const [screenHeight, setScreenHeight] = useState(window.innerHeight);
   const navigate = useNavigate();
-  const handleButtonClick = () => {
+  const handleCloseScreen = () => {
     navigate("/penny/home");
   };
   useEffect(() => {
@@ -77,7 +77,7 @@ export default function SingleDonation() {
             alignItems: "center",
           }}
         >
-            <IconButton onClick={handleButtonClick}>
+            <IconButton onClick={handleCloseScreen}>
               <Iconify
                 icon="eva:arrow-ios-forward-fill"
                 style={{ color: "black", transform: "scaleX(-1)" }}
@@ -160,7 +160,7 @@ export default function SingleDonation() {
       <Container
         style={{
           background: "white",
-          height: screenHeight * 0.59,
+          height: screenHeight * 0.682,
           overflow: "auto",
         }}
       >

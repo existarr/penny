@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
 // @mui
 import { styled } from '@mui/material/styles';
 //
@@ -35,6 +35,8 @@ const Main = styled('div')(({ theme }) => ({
 
 export default function DonationLayout() {
   const [open, setOpen] = useState(false);
+  const footerPaths = ["/penny/home", "/penny/donation", "/penny/singleDonation", "/penny/groupDonation", "/penny/donationHistory"];
+  const showFooter = footerPaths.includes(useLocation().pathname);
 
   return (
     <StyledRoot>
@@ -48,7 +50,7 @@ export default function DonationLayout() {
 
       <Nav openNav={open} onCloseNav={() => setOpen(false)} />
 
-      <Footer onOpenNav={() => setOpen(true)} />
+      {showFooter && <Footer onOpenNav={() => setOpen(true)} />}
     </StyledRoot>
   );
 }

@@ -27,17 +27,20 @@ const StyledRoot = styled(AppBar)(({ theme }) => ({
     width: `calc(100% - ${NAV_WIDTH + 1}px)`,
   },
 }));
+const screenHeight = window.innerHeight;
 
 const StyledToolbar = styled(Toolbar)(({ theme }) => ({
-  minHeight: HEADER_MOBILE,
   [theme.breakpoints.up('lg')]: {
-    minHeight: HEADER_DESKTOP,
     padding: theme.spacing(0, 5),
   },
+  height: screenHeight * 0.08,
   position: 'fixed',
-  bottom: 0,
+  bottom: -screenHeight,
   right: 0,
   left: 0,
+  display: 'flex',
+  justifyContent: 'space-around',
+  background: '#F7F7F7'
 }));
 
 // ----------------------------------------------------------------------
@@ -62,7 +65,7 @@ export default function Footer({ onOpenNav }) {
         </IconButton>
 
         <Searchbar />
-        <Box sx={{ flexGrow: 1 }} />
+        <NotificationsPopover />
 
         <Stack
           direction="row"
@@ -73,7 +76,7 @@ export default function Footer({ onOpenNav }) {
           }}
         >
           {/* <LanguagePopover /> */}
-          <NotificationsPopover />
+          {/* <NotificationsPopover /> */}
           <AccountPopover />
         </Stack>
       </StyledToolbar>
