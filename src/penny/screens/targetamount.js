@@ -28,7 +28,7 @@ export default function KeypadPage() {
       </Helmet>
 
       <Container
-  style={{ background: "lightblue", height: "200px", paddingTop: "10px", display: "flex", flexDirection: "column", justifyContent: "flex-end" }}
+  style={{ background: "#BFDDFB", height: "200px", paddingTop: "10px", display: "flex", flexDirection: "column", justifyContent: "flex-end" }}
 >
   <div
     style={{
