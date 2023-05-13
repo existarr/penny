@@ -10,7 +10,9 @@ import DialogTitle from "@mui/material/DialogTitle";
 
 import { MapMarker, Map } from "react-kakao-maps-sdk";
 
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, useLocation, Link } from "react-router-dom";
+
+import { firestore } from "./firebase-config";
 
 //import user data
 import user from "../data/users";
@@ -24,15 +26,18 @@ const geolocation = navigator.geolocation;
 
 export default function App() {
   const { kakao } = window;
+  const location = useLocation();
   const [screenHeight, setScreenHeight] = useState(window.innerHeight);
   const [open, setOpen] = useState(false);
   const [userData, setUserData] = useState({});
+  const [accountData, setAccountData] = useState([]);
   const [position, setPosition] = useState({
     latitude: null,
     longitude: null,
   });
   const [address, setAddress] = useState(null);
   const [isValid, setIsValid] = useState(false);
+  const userId = localStorage.getItem('userId');
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -48,14 +53,46 @@ export default function App() {
   };
 
   useEffect(() => {
-    setUserData(
-      user.map((u) => ({
+    const callData = async () => {
+      console.log(firestore);
+      const userRef = firestore.collection("user").doc(userId);
+      const userSnapshot = await userRef.get();
+      setUserData(userSnapshot.data());
+      setUserData((prevUserData) => ({
+        ...prevUserData,
         donationAccount: null,
-        isAuto: u.isAuto,
-        autoDonationAmount: u.autoDonationAmount,
-        currentDonationType: u.currentDonationType,
-      }))[0]
-    );
+        isAuto: false,
+        autoDonationAmount: null,
+        currentDonationType: null,
+        address: null,
+      }));
+      const accountRef = firestore
+        .collection("user")
+        .doc(userId)
+        .collection("account");
+      const accountDoc = [];
+      accountRef.get().then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          const { bank, number, balance } = doc.data();
+          accountDoc.push({
+            bank: bank,
+            number: number,
+            balance: balance,
+          });
+        });
+        setAccountData(accountDoc);
+      });
+    };
+
+    callData();
+    // setUserData(
+    //   user.map((u) => ({
+    //     donationAccount: null,
+    //     isAuto: u.isAuto,
+    //     autoDonationAmount: u.autoDonationAmount,
+    //     currentDonationType: u.currentDonationType,
+    //   }))[0]
+    // );
   }, []);
 
   const handleSelect = (e) => {
@@ -96,6 +133,10 @@ export default function App() {
     const callback = function (result, status) {
       if (status === kakao.maps.services.Status.OK) {
         setAddress(result[0].address);
+        setUserData((prevUserData) => ({
+          ...prevUserData,
+          address: result[0].address.address_name,
+        }));
       }
     };
     geocoder.coord2Address(coord.getLng(), coord.getLat(), callback);
@@ -114,6 +155,17 @@ export default function App() {
         console.error(err);
       }
     );
+  };
+
+  const initialSetup = async () => {
+    const userRef = firestore.collection("user").doc(userId);
+    await userRef.set({ ...userData, isPenny: true }, { merge: true });
+    localStorage.setItem("pennyAccount", userData.donationAccount);
+    navigate("/penny/organization-list", {
+      state: {
+        id: userId,
+      },
+    });
   };
 
   return (
@@ -170,8 +222,8 @@ export default function App() {
           <MenuItem value="placeholder1" disabled style={{ display: "none" }}>
             연동할 계좌를 선택해 주세요.
           </MenuItem>
-          {accountInfo.map((acc) => (
-            <MenuItem value={acc.bank + acc.number}>
+          {accountData.map((acc) => (
+            <MenuItem value={acc.number}>
               {acc.bank} {acc.number}
             </MenuItem>
           ))}
@@ -284,7 +336,9 @@ export default function App() {
               <MenuItem value={10}>10원 단위</MenuItem>
               <MenuItem value={100}>100원 단위</MenuItem>
             </Select>
-            <span style={{ visibility: "hidden", fontSize: "6pt", height: "12px", }}>
+            <span
+              style={{ visibility: "hidden", fontSize: "6pt", height: "12px" }}
+            >
               *모금 단위를 선택해 주세요.
             </span>
           </>
@@ -324,8 +378,18 @@ export default function App() {
           *기부 방식을 선택해 주세요.
         </span>
       </div>
-      <div style={{ display: "flex", justifyContent: "center", marginTop: '3px' }}>
-        <Button style={{ width: "88%", fontSize: '10pt' }} onClick={handleClickOpen}>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          marginTop: "3px",
+        }}
+      >
+        <Button
+          style={{ width: "100%", fontSize: "10pt", textAlign: 'center' }}
+          onClick={handleClickOpen}
+        >
           {!position.latitude ? (
             "나의 위치 찾기"
           ) : address ? (
@@ -334,6 +398,19 @@ export default function App() {
             </span>
           ) : null}
         </Button>
+        <span
+          style={{
+            color: "red",
+            fontSize: "6pt",
+            height: "12px",
+            textAlign: 'center',
+            marginTop: '-8px',
+            visibility:
+              userData.address !== null ? "hidden" : "visible",
+          }}
+        >
+          *위치 사용을 허용해 주세요.
+        </span>
       </div>
       <Dialog
         open={open}
@@ -425,26 +502,22 @@ export default function App() {
         </Map>
       </div>
       {isValid ? (
-        <Link
-          to={"/penny/home"}
-          state={{ address: address, penny: true, userData: userData }}
+        <Button
+          variant="contained"
+          fullWidth
+          style={{
+            backgroundColor: "#F7E676",
+            borderRadius: "0px",
+            color: "black",
+            width: "100%",
+            height: screenHeight * 0.08,
+            position: "fixed",
+            bottom: 0,
+          }}
+          onClick={() => initialSetup()}
         >
-          <Button
-            variant="contained"
-            fullWidth
-            style={{
-              backgroundColor: "#F7E676",
-              borderRadius: "0px",
-              color: "black",
-              width: "100%",
-              height: screenHeight * 0.08,
-              position: "fixed",
-              bottom: 0,
-            }}
-          >
-            Penny 신청하기
-          </Button>
-        </Link>
+          Penny 신청하기
+        </Button>
       ) : (
         <Button
           variant="contained"

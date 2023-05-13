@@ -10,23 +10,20 @@ export default function KeypadPage() {
   const navigate = useNavigate();
 
   const handleButtonClick = (buttonValue) => {
-    setInputValue((prevValue) => prevValue + buttonValue);
+    let value = inputValue.toString() + buttonValue.toString();
+    setInputValue(parseInt(value));
   };
+
+  const handleSetButton = (val) => {
+    let added = inputValue + parseInt(val);
+    setInputValue(added);
+  }
 
   const handleNextClick = () => {
-    // 목표 금액을 로컬 스토리지에 저장합니다.
-    localStorage.setItem("targetAmount", inputValue.toString());
-
+    localStorage.setItem('target', inputValue);
     // checktargetamount.js 페이지로 이동합니다.
-    navigate("/penny/checktargetamount");
+    navigate("/penny/checktarget");
   };
-
-  useEffect(() => {
-    const loadTargetAmount = localStorage.getItem("targetAmount");
-    if (loadTargetAmount) {
-      setSavedTargetAmount(parseInt(loadTargetAmount, 10));
-    }
-  }, []);
 
   return (
     <>
@@ -49,13 +46,13 @@ export default function KeypadPage() {
             {(inputValue - 0).toLocaleString()}원
           </div>
           <div style={{ display: "flex", justifyContent: "space-between", width: "100%", padding: "12px 8px" }}>
-            <Button onClick={() => handleButtonClick(1000)} variant="contained" style={{flexGrow: 1, margin: "0 4px"}}>
+            <Button onClick={() => handleSetButton(1000)} variant="contained" style={{flexGrow: 1, margin: "0 4px"}}>
               1,000원
             </Button>
-            <Button onClick={() => handleButtonClick(5000)} variant="contained" style={{flexGrow: 1, margin: "0 4px"}}>
+            <Button onClick={() => handleSetButton(5000)} variant="contained" style={{flexGrow: 1, margin: "0 4px"}}>
               5,000원
             </Button>
-            <Button onClick={() => handleButtonClick(10000)} variant="contained" style={{flexGrow: 1, margin: "0 4px"}}>
+            <Button onClick={() => handleSetButton(10000)} variant="contained" style={{flexGrow: 1, margin: "0 4px"}}>
               10,000원
             </Button>
           </div>

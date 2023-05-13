@@ -15,12 +15,15 @@ import {
 
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import user from "../data/users";
+import {useNavigate} from 'react-router-dom';
+import { firestore } from "./firebase-config";
 
 const FundraisingConfirmation = () => {
+  const navigate = useNavigate();
   const accountInfo = user[0]?.account || {};
-  const [targetAmount, setTargetAmount] = React.useState(accountInfo.targetAmount || 0);
   const [fundraisingType, setFundraisingType] = React.useState("personal");
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const targetAmount = localStorage.getItem('target');
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -35,36 +38,45 @@ const FundraisingConfirmation = () => {
     handleClose();
   };
 
-  React.useEffect(() => {
-    const loadTargetAmount = localStorage.getItem("targetAmount");
-    if (loadTargetAmount) {
-      setTargetAmount(parseInt(loadTargetAmount, 10));
-    }
-  }, []);
+  // React.useEffect(() => {
+  //   const loadTargetAmount = localStorage.getItem("targetAmount");
+  //   if (loadTargetAmount) {
+  //     setTargetAmount(parseInt(loadTargetAmount, 10));
+  //   }
+  // }, []);
 
-  const handleConfirm = () => {
-    alert(`목표금액: ${targetAmount.toLocaleString()}원`);
-    // 필요한 API 호출 등의 작업 수행
+  const handleConfirm = async () => {
+    const userRef = firestore
+      .collection("user")
+      .doc(localStorage.getItem("userId"));
+    await userRef.set(
+      {
+        targetDonationAmount: localStorage.getItem("target"),
+      },
+      { merge: true }
+    );
+    navigate('/penny/home');
   };
 
   return (
     <React.Fragment>
       <div style={{ paddingTop: "10px" }}>
-        <Grid container spacing={1}>
-          <Grid item xs={5} style={{ marginTop: "10px" }}>
-            <Button style={{ color: "black" }}>
-              <ArrowBackIosIcon />
-            </Button>
-          </Grid>
-          <Grid item xs={5} style={{ marginTop: "17px", marginBottom: "0px" }}>
-            <Typography variant="h5" gutterBottom style={{ marginBottom: "0px" }}>
-              {user[0].name}
-            </Typography>
-          </Grid>
-          <Grid item xs={2} style={{ marginTop: "10px" }}>
-            <Button style={{ color: "black", paddingRight: "15px" }}>취소</Button>
-          </Grid>
-        </Grid>
+        <div style={{ display: "flex", justifyContent: "space-between" }}>
+          <Button style={{ color: "black" }} onClick={() => navigate('/penny/targetAmount')}>
+            <ArrowBackIosIcon />
+          </Button>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              textAlign: "center",
+            }}
+          >
+            <span style={{fontSize: '10pt', fontWeight: 'bold'}}>{localStorage.getItem("userName")}</span>
+            <span style={{fontSize: '8pt'}}>계좌: {localStorage.getItem("pennyAccount")}</span>
+          </div>
+          <Button style={{ color: "black", paddingRight: "15px" }}>취소</Button>
+        </div>
       </div>
       <Typography
         variant="body2"
@@ -73,17 +85,25 @@ const FundraisingConfirmation = () => {
       >
         {accountInfo.bank} {accountInfo.number}
       </Typography>
-      <div style={{ flexGrow: 1, display: "flex", flexDirection: "column", justifyContent: "center", paddingTop: 70}}>
+      <div
+        style={{
+          flexGrow: 1,
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          paddingTop: 70,
+        }}
+      >
         <Typography variant="h5" align="center">
           목표금액으로 아래의 금액을 설정하시겠습니까?
         </Typography>
         <br />
-        <Typography variant="h3" align="center" style={{ fontSize: "4.5rem" }}>
-          {targetAmount.toLocaleString()}원
+        <Typography variant="h1" align="center">
+          {(parseInt(targetAmount)).toLocaleString()}원
         </Typography>
         <br />
 
-        <Card
+        {/* <Card
           style={{
             width: "300px",
             height: "50px",
@@ -113,21 +133,19 @@ const FundraisingConfirmation = () => {
             <MenuItem onClick={() => handleSelect("personal")}>개인 모금</MenuItem>
             <MenuItem onClick={() => handleSelect("group")}>단체 모금</MenuItem>
           </Menu>
-        </Card>
+        </Card> */}
       </div>
-      <div
-        style={{ position: "fixed", bottom: 0, left: 0, right: 0 }}
-      >
+      <div style={{ position: "fixed", bottom: 0, left: 0, right: 0 }}>
         <Button
           variant="contained"
           style={{
             backgroundColor: "#F7E676",
             color: "black",
             height: "46px",
-            width: "350px",
+            width: "100%",
             borderRadius: "5px",
             margin: "auto",
-            display: "block"
+            display: "block",
           }}
           onClick={handleConfirm}
         >

@@ -1,9 +1,11 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 // @mui
 import { alpha } from '@mui/material/styles';
 import { Box, Divider, Typography, Stack, MenuItem, Avatar, IconButton, Popover } from '@mui/material';
 // mocks_
 import account from '../../../_mock/account';
+
+import {firestore} from '../../../penny/screens/firebase-config';
 
 // ----------------------------------------------------------------------
 
@@ -26,6 +28,7 @@ const MENU_OPTIONS = [
 
 export default function AccountPopover() {
   const [open, setOpen] = useState(null);
+  const [userData, setUserData] = useState({});
 
   const handleOpen = (event) => {
     setOpen(event.currentTarget);
@@ -34,6 +37,17 @@ export default function AccountPopover() {
   const handleClose = () => {
     setOpen(null);
   };
+
+  useEffect(() =>{
+    const callData = async () => {
+      console.log(firestore);
+      const userRef = firestore.collection("user").doc(localStorage.getItem('userId'));
+      const userSnapshot = await userRef.get();
+      setUserData(userSnapshot.data());
+    };
+
+    callData();
+  }, []);
 
   return (
     <>
@@ -54,7 +68,7 @@ export default function AccountPopover() {
           }),
         }}
       >
-        <Avatar src={account.photoURL} alt="photoURL" />
+        <Avatar src={userData.imageUrl} alt="photoURL" />
       </IconButton>
 
       <Popover
