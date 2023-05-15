@@ -158,12 +158,11 @@ export default function App() {
   };
 
   const initialSetup = async () => {
-    const userRef = firestore.collection("user").doc(userId);
-    await userRef.set({ ...userData, isPenny: true }, { merge: true });
-    localStorage.setItem("pennyAccount", userData.donationAccount);
+    localStorage.setItem('temporaryUserData', userData);
     navigate("/penny/organization-list", {
       state: {
         id: userId,
+        userData: userData,
       },
     });
   };

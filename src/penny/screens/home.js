@@ -47,10 +47,36 @@ const Home = () => {
         const accountDocRef = accountRef.doc(doc.id);
         const userData = doc.data();
         const updatedBalance = userData.balance - amount;
-        accountDocRef.update({ balance: updatedBalance }).then(() => {
-          setCurrentBalance(updatedBalance);
-        });
+        accountDocRef
+          .update({ balance: updatedBalance }, { merge: true })
+          .then(() => {
+            setCurrentBalance(updatedBalance);
+          });
       });
+    }
+    if (userData.currentDonationType == "group") {
+      const orgRef = firestore.collection("organization");
+      const orgQuery = orgRef.where(
+        "name",
+        "==",
+        userData.currentDonationOrganization
+      );
+      const orgSnapshot = await orgQuery.get();
+
+      if (!orgSnapshot.empty) {
+        orgSnapshot.forEach(async (doc) => {
+          const orgDocRef = await orgRef.doc(doc.id).get();
+          const orgData = orgDocRef.data();
+          console.log(orgData);
+          const updatedCurrentAmount = orgData.currentAmount + amount;
+          orgRef
+            .doc(doc.id)
+            .update({ currentAmount: updatedCurrentAmount })
+            .then(() => {
+              localStorage.setItem("orgCurrentAmount", updatedCurrentAmount);
+            });
+        });
+      }
     }
   };
 
@@ -151,7 +177,7 @@ const Home = () => {
             {userData.isPenny == null ? (
               <>
                 <Link
-                  to={"/penny/setup"}
+                  to={"/penny/startDonation"}
                   state={{ userId: userId }}
                   s
                   tyle={{ textDecoration: "none" }}
@@ -358,26 +384,28 @@ const Home = () => {
                               개인 모금
                             </Button>
                           </Link>
-                          <Button
-                            variant="contained"
-                            style={{
-                              height: "100%",
-                              minWidth: "60px",
-                              padding: "5px",
-                              marginLeft: "5px",
-                              border: "none",
-                              borderRadius: "20px",
-                              fontSize: "9pt",
-                            }}
-                            disabled={userData.currentDonationType != "group"}
-                            sx={{
-                              backgroundColor: "#c88a8a",
-                              color: "black",
-                              boxShadow: "none", // remove shadow
-                            }}
-                          >
-                            함께 모금
-                          </Button>
+                          <Link to={"/penny/groupDonation"}>
+                            <Button
+                              variant="contained"
+                              style={{
+                                height: "100%",
+                                minWidth: "60px",
+                                padding: "5px",
+                                marginLeft: "5px",
+                                border: "none",
+                                borderRadius: "20px",
+                                fontSize: "9pt",
+                              }}
+                              disabled={userData.currentDonationType != "group"}
+                              sx={{
+                                backgroundColor: "#b8c5d2",
+                                color: "black",
+                                boxShadow: "none", // remove shadow
+                              }}
+                            >
+                              함께 모금
+                            </Button>
+                          </Link>
                           <Link to={"/penny/donationHistory"}>
                             <Button
                               variant="contained"
@@ -402,21 +430,23 @@ const Home = () => {
                         </div>
                       </div>
                     </Card>
-                    {userData.isAuto ? null : acc.balance % 1000 == 0 && acc.balance % 100 == 0 && acc.balance % 10 == 0? (
+                    {userData.isAuto ? null : acc.balance % 1000 == 0 &&
+                      acc.balance % 100 == 0 &&
+                      acc.balance % 10 == 0 ? (
                       <Button
                         variant="contained"
                         style={{
                           height: "100%",
                           minWidth: "100%",
                           padding: "5px",
-                          marginBottom: '10px',
+                          marginBottom: "10px",
                           border: "none",
                           borderRadius: "10px",
                           fontSize: "10pt",
                         }}
                         onClick={() => handleDonate(acc.balance % 1000)}
                         sx={{
-                          background: 'transparent',
+                          background: "transparent",
                           color: "white",
                           boxShadow: "none", // remove shadow
                         }}

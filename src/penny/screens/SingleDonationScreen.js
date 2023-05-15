@@ -106,6 +106,7 @@ export default function SingleDonation() {
               paddingTop: "20px",
             }}
           >
+            {/*진행 중인 모금 없을 시 organization-list로 이동하는 버튼 || 닫기*/}
             <div
               style={{
                 display: "flex",
@@ -120,7 +121,7 @@ export default function SingleDonation() {
                 />
               </IconButton>
               <span style={{ fontSize: "12pt", fontWeight: "bolder" }}>
-                {donationData.donateType ? "함께모금" : "개인모금"}
+                개인 모금
               </span>
               <Link to={"/penny/targetAmount"}>
                 <IconButton>

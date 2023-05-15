@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import { Box, Button, Grid, Typography } from "@mui/material";
+import { Link, useNavigate, useLocation } from "react-router-dom";
+import { Box, Button, Grid, Typography, IconButton } from "@mui/material";
+import Iconify from "../../components/iconify";
 import { styled } from "@mui/material/styles";
 import organizationsData from "../data/organization.json";
 
@@ -22,12 +23,23 @@ const DetailsButtonWrapper = styled(Button)(({ theme }) => ({
 }));
 
 export default function ListOfCenter() {
+  const navigate = useNavigate();
+  const location = useLocation();
   const [organizations, setOrganizations] = useState([]);
   const [loading, setLoading] = useState([]);
+  const [userData, setUserData] = useState({});
+  const userId = localStorage.getItem("userId");
 
   useEffect(() => {
     const callData = async () => {
       setLoading(true);
+      const userRef = firestore.collection("user").doc(userId);
+      const userSnapshot = await userRef.get();
+      if (location.state && location.state.userData) {
+        setUserData(location.state.userData);
+      } else {
+        setUserData(userSnapshot.data());
+      }
       const orgRef = firestore.collection("organization");
       const organizationData = [];
       const querySnapshot = await orgRef.get();
@@ -64,6 +76,30 @@ export default function ListOfCenter() {
 
   return (
     <>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          boxShadow: "0px 1px 5px rgba(0, 0, 0, 0.1)",
+          padding: "0px 5px",
+          marginBottom: "10px",
+        }}
+      >
+        <IconButton onClick={() => navigate(-1)}>
+          <Iconify
+            icon="eva:arrow-ios-forward-fill"
+            style={{ color: "black", transform: "scaleX(-1)" }}
+          />
+        </IconButton>
+        <p style={{ fontSize: "11pt" }}>기관 소개</p>
+        <IconButton>
+          <Iconify
+            icon="eva:settings-2-fill"
+            style={{ color: "black", visibility: "hidden" }}
+          />
+        </IconButton>
+      </div>
       {loading ? (
         <div
           style={{
@@ -88,7 +124,10 @@ export default function ListOfCenter() {
                     {organization.donationOverview}
                   </Typography>
                 </div>
-                <Link to={"/penny/organization-detail"} state={{organization: organization}}>
+                <Link
+                  to={"/penny/organization-detail"}
+                  state={{ organization: organization, userData: userData }}
+                >
                   <DetailsButtonWrapper variant="outlined">
                     자세히
                   </DetailsButtonWrapper>
