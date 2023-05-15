@@ -18,11 +18,16 @@ const SignIn = () => {
     const userSnapshot = await userRef.get();
     if (!userSnapshot.exists) {
       await userRef.set({});
-      await userRef.set({
-        id: response.profile.id,
-        name: response.profile.properties.nickname,
-        imageUrl: response.profile.properties.profile_image,
-      });
+      await userRef.set(
+        {
+          id: response.profile.id,
+          name: response.profile.properties.nickname,
+          imageUrl: response.profile.properties.profile_image,
+          currentDonationType: 'undefined',
+          currentDonationOrganization: 'undefined',
+        },
+        { merge: true }
+      );
       await userRef.collection("account").add({
         bank: "카카오뱅크",
         number: "482011-72-928829",
@@ -46,14 +51,22 @@ const SignIn = () => {
 
   return (
     <>
-      <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: '300px', width: '100%'}}>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          marginTop: "300px",
+          width: "100%",
+        }}
+      >
         <KakaoLogin
           token={"a26caa4bd7b9b30d7fe2e19b5a5f6454"}
           onSuccess={handleSuccess}
           onFial={console.error}
           onLogout={console.info}
         >
-          <img src={kakaoLoginButton} width='100%' height="100%"></img>
+          <img src={kakaoLoginButton} width="100%" height="100%"></img>
         </KakaoLogin>
       </div>
     </>

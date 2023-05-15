@@ -30,19 +30,19 @@ import SignIn from "./penny/screens/SignIn";
 
 export default function Router() {
   const routes = useRoutes([
-    {
-      path: "/dashboard",
-      element: <DashboardLayout />,
-      children: [
-        { element: <Navigate to="/dashboard/app" />, index: true },
-        { path: "app", element: <DashboardAppPage /> },
-        { path: "user", element: <UserPage /> },
-        { path: "products", element: <ProductsPage /> },
-        { path: "blog", element: <BlogPage /> },
-        { path: "main", element: <MainPage /> },
-        { path: "jsonSample", element: <JsonSample /> },
-      ],
-    },
+    // {
+    //   path: "/dashboard",
+    //   element: <DashboardLayout />,
+    //   children: [
+    //     { element: <Navigate to="/dashboard/app" />, index: true },
+    //     { path: "app", element: <DashboardAppPage /> },
+    //     { path: "user", element: <UserPage /> },
+    //     { path: "products", element: <ProductsPage /> },
+    //     { path: "blog", element: <BlogPage /> },
+    //     { path: "main", element: <MainPage /> },
+    //     { path: "jsonSample", element: <JsonSample /> },
+    //   ],
+    // },
     {
       path: "/penny",
       element: <DonationLayout />,
@@ -64,18 +64,18 @@ export default function Router() {
         { path: "donationHistory", element: <DonationHistoryScreen /> },
       ],
     },
-    {
-      path: "login",
-      element: <LoginPage />,
-    },
-    {
-      element: <SimpleLayout />,
-      children: [
-        { element: <Navigate to="/dashboard/app" />, index: true },
-        { path: "404", element: <Page404 /> },
-        { path: "*", element: <Navigate to="/404" /> },
-      ],
-    },
+    // {
+    //   path: "login",
+    //   element: <LoginPage />,
+    // },
+    // {
+    //   element: <SimpleLayout />,
+    //   children: [
+    //     { element: <Navigate to="/dashboard/app" />, index: true },
+    //     { path: "404", element: <Page404 /> },
+    //     { path: "*", element: <Navigate to="/404" /> },
+    //   ],
+    // },
     {
       path: "*",
       element: <Navigate to="/404" replace />,

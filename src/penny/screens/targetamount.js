@@ -33,7 +33,7 @@ export default function KeypadPage() {
 
       <Container style={{ background: "#BFDDFB", height: "200px", paddingTop: "10px", display: "flex", flexDirection: "column", justifyContent: "flex-end"}}>
         <div style={{display: "flex", justifyContent: "space-between", alignItems: "center", height: "150px"}}>
-          <IconButton onClick={navigate.goBack}>
+          <IconButton onClick={() => navigate(-1)}>
             <Iconify icon="eva:arrow-ios-forward-fill" style={{ color: "black", transform: "scaleX(-1)" }} />
           </IconButton>
           <span style={{ fontSize: "14pt" }}>금액 입력</span>
