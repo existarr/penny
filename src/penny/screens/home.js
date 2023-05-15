@@ -26,6 +26,33 @@ const Home = () => {
   const userId = localStorage.getItem("userId");
   const [accountData, setAccountData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [currentBalance, setCurrentBalance] = useState(0);
+
+  const handleDonate = async (amount) => {
+    const userRef = firestore.collection("user").doc(userId);
+    // const userSnapshot = await userRef.get();
+    // setUserData(userSnapshot.data());
+    await userRef.update({
+      currentDonationAmount: amount,
+    });
+    const accountRef = firestore
+      .collection("user")
+      .doc(userId)
+      .collection("account");
+    const query = accountRef.where("number", "==", userData.donationAccount);
+    const snapshot = await query.get();
+
+    if (!snapshot.empty) {
+      snapshot.forEach((doc) => {
+        const accountDocRef = accountRef.doc(doc.id);
+        const userData = doc.data();
+        const updatedBalance = userData.balance - amount;
+        accountDocRef.update({ balance: updatedBalance }).then(() => {
+          setCurrentBalance(updatedBalance);
+        });
+      });
+    }
+  };
 
   useEffect(() => {
     const callData = async () => {
@@ -47,6 +74,9 @@ const Home = () => {
             number: number,
             balance: balance,
           });
+          if (userData.donationAccount == number) {
+            setCurrentBalance(balance);
+          }
         });
         setAccountData(accountDoc);
         setLoading(false);
@@ -57,7 +87,7 @@ const Home = () => {
       localStorage.setItem("donationType", userData.currentDonationType);
 
     callData();
-  }, []);
+  }, [currentBalance]);
   return (
     <>
       {loading ? (
@@ -268,41 +298,66 @@ const Home = () => {
                   </div>
                 </Card>
                 {userData.donationAccount == acc.number ? (
-                  <Card
-                    style={{
-                      backgroundColor: "#cddbea",
-                      marginBottom: "8px",
-                    }}
-                  >
-                    <div style={{ padding: "20px" }}>
-                      <div
-                        style={{
-                          display: "flex",
-                          justifyContent: "space-between",
-                        }}
-                      >
+                  <>
+                    <Card
+                      style={{
+                        backgroundColor: "#cddbea",
+                        marginBottom: "8px",
+                      }}
+                    >
+                      <div style={{ padding: "20px" }}>
                         <div
-                          style={{ display: "flex", flexDirection: "column" }}
-                        >
-                          <span
-                            style={{ fontSize: "11pt", fontWeight: "bold" }}
-                          >
-                            Penny
-                          </span>
-                          <span style={{ fontWeight: "bolder" }}>
-                            {userData.currentDonationAmount.toLocaleString()}원
-                          </span>
-                        </div>
-                        <MoreHorizIcon
                           style={{
-                            color: "grey",
-                            width: "30px",
-                            height: "20px",
+                            display: "flex",
+                            justifyContent: "space-between",
                           }}
-                        />
-                      </div>
-                      <div style={{ display: "flex", justifyContent: "end" }}>
-                        <Link to={"/penny/singleDonation"}>
+                        >
+                          <div
+                            style={{ display: "flex", flexDirection: "column" }}
+                          >
+                            <span
+                              style={{ fontSize: "11pt", fontWeight: "bold" }}
+                            >
+                              Penny
+                            </span>
+                            <span style={{ fontWeight: "bolder" }}>
+                              {userData.currentDonationAmount.toLocaleString()}
+                              원
+                            </span>
+                          </div>
+                          <MoreHorizIcon
+                            style={{
+                              color: "grey",
+                              width: "30px",
+                              height: "20px",
+                            }}
+                          />
+                        </div>
+                        <div style={{ display: "flex", justifyContent: "end" }}>
+                          <Link to={"/penny/singleDonation"}>
+                            <Button
+                              variant="contained"
+                              style={{
+                                height: "100%",
+                                minWidth: "60px",
+                                padding: "5px",
+                                marginLeft: "5px",
+                                border: "none",
+                                borderRadius: "20px",
+                                fontSize: "9pt",
+                              }}
+                              disabled={
+                                userData.currentDonationType != "single"
+                              }
+                              sx={{
+                                backgroundColor: "#b8c5d2",
+                                color: "black",
+                                boxShadow: "none", // remove shadow
+                              }}
+                            >
+                              개인 모금
+                            </Button>
+                          </Link>
                           <Button
                             variant="contained"
                             style={{
@@ -314,60 +369,131 @@ const Home = () => {
                               borderRadius: "20px",
                               fontSize: "9pt",
                             }}
-                            disabled={userData.currentDonationType != "single"}
+                            disabled={userData.currentDonationType != "group"}
                             sx={{
-                              backgroundColor: "#b8c5d2",
+                              backgroundColor: "#c88a8a",
                               color: "black",
                               boxShadow: "none", // remove shadow
                             }}
                           >
-                            개인 모금
+                            함께 모금
                           </Button>
-                        </Link>
+                          <Link to={"/penny/donationHistory"}>
+                            <Button
+                              variant="contained"
+                              style={{
+                                height: "100%",
+                                minWidth: "50px",
+                                padding: "5px",
+                                marginLeft: "5px",
+                                border: "none",
+                                borderRadius: "20px",
+                                fontSize: "9pt",
+                              }}
+                              sx={{
+                                backgroundColor: "#b8c5d2",
+                                color: "black",
+                                boxShadow: "none", // remove shadow
+                              }}
+                            >
+                              내역
+                            </Button>
+                          </Link>
+                        </div>
+                      </div>
+                    </Card>
+                    {userData.isAuto ? null : acc.balance % 1000 == 0 && acc.balance % 100 == 0 && acc.balance % 10 == 0? (
+                      <Button
+                        variant="contained"
+                        style={{
+                          height: "100%",
+                          minWidth: "100%",
+                          padding: "5px",
+                          marginBottom: '10px',
+                          border: "none",
+                          borderRadius: "10px",
+                          fontSize: "10pt",
+                        }}
+                        onClick={() => handleDonate(acc.balance % 1000)}
+                        sx={{
+                          background: 'transparent',
+                          color: "white",
+                          boxShadow: "none", // remove shadow
+                        }}
+                      >
+                        모금 가능한 penny가 없습니다.
+                      </Button>
+                    ) : (
+                      <div
+                        style={{
+                          display: "flex",
+                          justifyContent: "space-around",
+                          marginBottom: "10px",
+                        }}
+                      >
                         <Button
                           variant="contained"
                           style={{
                             height: "100%",
-                            minWidth: "60px",
+                            minWidth: "110px",
                             padding: "5px",
                             marginLeft: "5px",
                             border: "none",
-                            borderRadius: "20px",
-                            fontSize: "9pt",
+                            borderRadius: "15px",
+                            fontSize: "12pt",
                           }}
-                          disabled={userData.currentDonationType != "group"}
+                          onClick={() => handleDonate(acc.balance % 1000)}
                           sx={{
-                            backgroundColor: "#c88a8a",
+                            backgroundColor: "#cddbea",
                             color: "black",
                             boxShadow: "none", // remove shadow
                           }}
                         >
-                          함께 모금
+                          {acc.balance % 1000} 원
                         </Button>
-                        <Link to={"/penny/donationHistory"}>
-                          <Button
-                            variant="contained"
-                            style={{
-                              height: "100%",
-                              minWidth: "50px",
-                              padding: "5px",
-                              marginLeft: "5px",
-                              border: "none",
-                              borderRadius: "20px",
-                              fontSize: "9pt",
-                            }}
-                            sx={{
-                              backgroundColor: "#b8c5d2",
-                              color: "black",
-                              boxShadow: "none", // remove shadow
-                            }}
-                          >
-                            내역
-                          </Button>
-                        </Link>
+                        <Button
+                          variant="contained"
+                          style={{
+                            height: "100%",
+                            minWidth: "110px",
+                            padding: "5px",
+                            marginLeft: "5px",
+                            border: "none",
+                            borderRadius: "15px",
+                            fontSize: "12pt",
+                          }}
+                          onClick={() => handleDonate(acc.balance % 100)}
+                          sx={{
+                            backgroundColor: "#cddbea",
+                            color: "black",
+                            boxShadow: "none", // remove shadow
+                          }}
+                        >
+                          {acc.balance % 100} 원
+                        </Button>
+                        <Button
+                          variant="contained"
+                          style={{
+                            height: "100%",
+                            minWidth: "110px",
+                            padding: "5px",
+                            marginLeft: "5px",
+                            border: "none",
+                            borderRadius: "15px",
+                            fontSize: "12pt",
+                          }}
+                          onClick={() => handleDonate(acc.balance % 10)}
+                          sx={{
+                            backgroundColor: "#cddbea",
+                            color: "black",
+                            boxShadow: "none", // remove shadow
+                          }}
+                        >
+                          {acc.balance % 10} 원
+                        </Button>
                       </div>
-                    </div>
-                  </Card>
+                    )}
+                  </>
                 ) : null}
               </>
             ))}

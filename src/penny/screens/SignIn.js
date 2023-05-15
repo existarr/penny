@@ -16,26 +16,26 @@ const SignIn = () => {
     let userName = response.profile.properties.nickname;
     const userRef = firestore.collection("user").doc(userId);
     const userSnapshot = await userRef.get();
-    if(!userSnapshot.exists){
+    if (!userSnapshot.exists) {
       await userRef.set({});
       await userRef.set({
         id: response.profile.id,
         name: response.profile.properties.nickname,
         imageUrl: response.profile.properties.profile_image,
       });
-      await userRef.collection('account').add({
-        bank: '카카오뱅크',
-        number: '482011-72-928829',
+      await userRef.collection("account").add({
+        bank: "카카오뱅크",
+        number: "482011-72-928829",
         balance: 1230871,
       });
-      await userRef.collection('account').add({
-        bank: '하나은행',
-        number: '622311-80-958219',
+      await userRef.collection("account").add({
+        bank: "하나은행",
+        number: "622311-80-958219",
         balance: 381673,
-      })
+      });
     }
-    localStorage.setItem('userId', userId);
-    localStorage.setItem('userName', userName);
+    localStorage.setItem("userId", userId);
+    localStorage.setItem("userName", userName);
 
     navigate("/penny/home", {
       state: {
@@ -46,14 +46,16 @@ const SignIn = () => {
 
   return (
     <>
-      <KakaoLogin
-        token={"a26caa4bd7b9b30d7fe2e19b5a5f6454"}
-        onSuccess={handleSuccess}
-        onFial={console.error}
-        onLogout={console.info}
-      >
-        <img src={kakaoLoginButton}></img>
-      </KakaoLogin>
+      <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: '300px', width: '100%'}}>
+        <KakaoLogin
+          token={"a26caa4bd7b9b30d7fe2e19b5a5f6454"}
+          onSuccess={handleSuccess}
+          onFial={console.error}
+          onLogout={console.info}
+        >
+          <img src={kakaoLoginButton} width='100%' height="100%"></img>
+        </KakaoLogin>
+      </div>
     </>
   );
 };
