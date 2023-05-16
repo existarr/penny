@@ -33,7 +33,7 @@ export default function App() {
       console.log(firestore);
       const userRef = firestore.collection("user").doc(userId);
       const userSnapshot = await userRef.get();
-      if(userData == null) setUserData(userSnapshot.data());
+      if (userData == null) setUserData(userSnapshot.data());
       setLoading(false);
       console.log(userData.currentDonationOrganization);
       console.log(location.state.userData);
@@ -43,6 +43,14 @@ export default function App() {
 
   const selectOrg = async () => {
     const userRef = firestore.collection("user").doc(userId);
+
+    const currhisRef = userRef.collection("currentHistory");
+    const currHisSnapshot = await currhisRef.get();
+    if (!currHisSnapshot.empty) {
+      const deletePromises = currHisSnapshot.docs.map((doc) => doc.ref.delete());
+      await Promise.all(deletePromises);
+    }
+
     if (donationType == "single") {
       await userRef.set(
         {
@@ -74,7 +82,7 @@ export default function App() {
 
   return (
     <>
-      <div style={{height: screenHeight}}>
+      <div style={{ height: screenHeight }}>
         <div
           style={{
             display: "flex",
@@ -92,11 +100,8 @@ export default function App() {
             />
           </IconButton>
           <p style={{ fontSize: "11pt" }}>기관 소개</p>
-          <IconButton onClick={() => navigate('/penny/home')}>
-            <Iconify
-              icon="eva:close-fill"
-              style={{ color: "black"}}
-            />
+          <IconButton onClick={() => navigate("/penny/home")}>
+            <Iconify icon="eva:close-fill" style={{ color: "black" }} />
           </IconButton>
         </div>
         {loading ? (
@@ -129,7 +134,10 @@ export default function App() {
             ))} */}
                 <br />
                 <span>기부 한 줄 요약: {orgInfo.overview}</span>
-                <span>기부 한 줄 요약: {orgInfo.targetAmount.toLocaleString()}원</span>
+                <br />
+                <span>
+                  목표 금액: {orgInfo.targetAmount.toLocaleString()}원
+                </span>
               </>
             )}
             {userData.currentDonationOrganization == "undefined" ? (

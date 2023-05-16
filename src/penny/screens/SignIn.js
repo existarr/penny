@@ -12,8 +12,9 @@ const SignIn = () => {
     console.log(response.profile.properties.nickname);
     console.log(response.profile.properties.profile_image);
     console.log(response.profile.id);
-    let userId = response.profile.id.toString();
-    let userName = response.profile.properties.nickname;
+    const userId = response.profile.id.toString();
+    const userName = response.profile.properties.nickname;
+    const imageUrl = response.profile.properties.profile_image;
     const userRef = firestore.collection("user").doc(userId);
     const userSnapshot = await userRef.get();
     if (!userSnapshot.exists) {
@@ -41,6 +42,7 @@ const SignIn = () => {
     }
     localStorage.setItem("userId", userId);
     localStorage.setItem("userName", userName);
+    localStorage.setItem("imageUrl", imageUrl);
 
     navigate("/penny/home", {
       state: {
