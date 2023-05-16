@@ -41,13 +41,8 @@ export default function FooterNav({ openNav, onCloseNav }) {
 
   const isDesktop = useResponsive('up', 'lg');
 
-  const [userName, setUserName] = useState("");
-  useEffect(() => {
-    const currentUser = user.map((u) => ({
-      name: u.name,
-    }));
-    setUserName(currentUser[0].name);
-  }, [userName]);
+  const userName = localStorage.getItem('userName');
+  const imageUrl = localStorage.getItem('imageUrl');
 
   useEffect(() => {
     if (openNav) {
@@ -68,9 +63,9 @@ export default function FooterNav({ openNav, onCloseNav }) {
       <Box sx={{ mb: 5, mx: 2.5 }}>
         <Link underline="none">
           <StyledAccount style={{display: 'flex', justifyContent: 'start', alignItems: 'center', background: '#CDDBEA', boxShadow: '1px 1px 4px grey', width: '320px', borderRadius: 'none', padding: '35px 20px 15px 25px', marginLeft: '-30px'}}>
-            <Avatar style={{width: '50px', height: '50px', marginTop: '5px'}}src="/assets/illustrations/illustration_avatar.png" alt="photoURL" />
+            <Avatar style={{width: '40px', height: '40px', marginTop: '5px'}}src={imageUrl} alt="photoURL" />
               <span style={{color: 'black',}}>
-              <span style={{fontSize: '16pt', fontWeight: 'bolder', marginRight: '3px'}}>
+              <span style={{fontSize: '16pt', fontWeight: 'bolder', marginRight: '3px', marginLeft: '10px'}}>
                 {userName}
               </span>
               님

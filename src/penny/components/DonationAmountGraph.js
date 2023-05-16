@@ -62,7 +62,7 @@ export default function DonationAmountGraph({
   });
 
   return (
-    <box style={{ marginTop: "-23px" }}>
+    <Box style={{ marginTop: "-23px" }}>
       <ReactApexChart
         type="bar"
         series={[{ data: chartCurrentSeries }, { data: chartRestSeries }]}
@@ -70,6 +70,6 @@ export default function DonationAmountGraph({
         height="40%"
         width="300px"
       />
-    </box>
+    </Box>
   );
 }
