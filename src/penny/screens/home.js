@@ -66,6 +66,9 @@ const Home = () => {
       }
     } else {
       if (organizationData.currentAmount < organizationData.targetAmount) {
+        setDonateValue(value);
+        setIsOpen(true);
+      } else {
         const userRef = firestore.collection("user").doc(userId);
         userRef
           .update({
@@ -92,12 +95,13 @@ const Home = () => {
     // setUserData(userSnapshot.data());
     await userRef.update({
       currentDonationAmount: userData.currentDonationAmount + amount,
-      totalDonationAmount: userData.totalDonatinoAmount + amount,
+      totalDonationAmount: userData.totalDonationAmount + amount,
     });
+    console.log(userData.totalDonationAmount);
     setUserData((prevUserData) => ({
       ...prevUserData,
       currentDonationAmount: userData.currentDonationAmount + amount,
-      totalDonationAmount: userData.totalDonatinoAmount + amount,
+      totalDonationAmount: userData.totalDonationAmount + amount,
     }));
     const accountRef = firestore
       .collection("user")
@@ -246,7 +250,11 @@ const Home = () => {
       localStorage.setItem("donationType", userData.currentDonationType);
 
     callData();
-  }, [counter, userData.currentDonationAmount, userData.currentDonationOrganization]);
+  }, [
+    counter,
+    userData.currentDonationAmount,
+    userData.currentDonationOrganization,
+  ]);
 
   useEffect(() => {
     const interval = setInterval(async () => {

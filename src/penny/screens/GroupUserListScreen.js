@@ -22,31 +22,16 @@ const DetailsButtonWrapper = styled(Button)(({ theme }) => ({
   padding: theme.spacing(0.5, 1),
 }));
 
-export default function UserRanking() {
+export default function GroupUserListScreen() {
   const navigate = useNavigate();
   const location = useLocation();
-  const [organizations, setOrganizations] = useState([]);
-  const [loading, setLoading] = useState([]);
-  const [userData, setUserData] = useState({});
-  const [userList, setUserList] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [groupUserList, setGroupUserList] = useState([]);
   const userId = localStorage.getItem("userId");
 
   useEffect(() => {
-    const callData = async () => {
-      setLoading(true);
-      const userRef = firestore.collection("user");
-      const userSnapshot = await userRef.get();
-      const userListData = userSnapshot.docs
-        .map((doc) => doc.data())
-        .filter((user) => user.isPenny);
-      userListData.sort(
-        (a, b) => b.totalDonationAmount - a.totalDonationAmount
-      );
-      setUserList(userListData);
-      setLoading(false);
-    };
-
-    callData();
+    setGroupUserList(location.state.groupUserData);
+    setLoading(false);
   }, []);
 
   return (
@@ -67,7 +52,7 @@ export default function UserRanking() {
             style={{ color: "black", transform: "scaleX(-1)" }}
           />
         </IconButton>
-        <p style={{ fontSize: "11pt" }}>랭킹</p>
+        <p style={{ fontSize: "11pt" }}>함께 하는 사람들</p>
         <IconButton>
           <Iconify
             icon="eva:settings-2-fill"
@@ -88,21 +73,20 @@ export default function UserRanking() {
         </div>
       ) : (
         <div>
-          {userList.map((user, index) => (
+          {groupUserList.map((user, index) => (
             <div
               style={{
                 display: "flex",
-                justifyContent: "space-between",
+                justifyContent: "start",
+                alignItems: 'center',
                 borderBottom: "1px solid rgba(0, 0, 0, 0.1)",
                 width: "100%",
                 padding: "12px 20px",
               }}
             >
-              <div>
-                <span style={{fontWeight: 'bold'}}>{user.totalDonationAmount == 0 ? null : index + 1}</span>
-                <span style={{marginLeft: '5px'}}>{user.name}</span>
-              </div>
-              <span>{user.totalDonationAmount == 0 ? "-" : (user.totalDonationAmount).toLocaleString() + "원"}</span>
+                <img src={user.imageUrl} alt='' style={{width: '40px', height: '40px', border: 'none', borderRadius: '50%'}} />
+                <span style={{marginLeft: '10px'}}>{user.name}</span>
+              {/* <span>{user.totalDonationAmount == 0 ? "-" : (user.totalDonationAmount).toLocaleString() + "원"}</span> */}
             </div>
           ))}
         </div>

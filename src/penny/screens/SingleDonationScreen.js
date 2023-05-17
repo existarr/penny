@@ -67,6 +67,7 @@ export default function GroupDonation() {
       const promises = currHisSnapshot.docs.map(async (doc) => {
         const currHisDocRef = await currHisRef.doc(doc.id).get();
         historyArray.push({
+          order: currHisDocRef.data().date.toDate(),
           date: currHisDocRef.data().date.toDate().toLocaleDateString(),
           time: currHisDocRef.data().date.toDate().toLocaleTimeString([], {
             hour: "2-digit",
@@ -82,15 +83,12 @@ export default function GroupDonation() {
       await Promise.all(promises);
 
       historyArray.sort((a, b) => {
-        const dateA = new Date(a.date + " " + a.time);
-        const dateB = new Date(b.date + " " + b.time);
-        return dateB - dateA;
+        return b.order - a.order;
       });
 
       setCurrentDonationHistory(historyArray);
     }
   };
-
 
   return (
     <>
@@ -123,8 +121,6 @@ export default function GroupDonation() {
                 display: "flex",
                 justifyContent: "space-between",
                 alignItems: "center",
-                paddingLeft: "16px",
-                paddingRight: "16px",
               }}
             >
               <IconButton onClick={handleCloseScreen}>
@@ -133,7 +129,13 @@ export default function GroupDonation() {
                   style={{ color: "black", transform: "scaleX(-1)" }}
                 />
               </IconButton>
-              <span style={{ fontSize: "14pt", fontWeight: "bolder" }}>
+              <span
+                style={{
+                  fontSize: "12pt",
+                  fontWeight: "bolder",
+                  marginTop: "-5px",
+                }}
+              >
                 개인 모금
               </span>
               <Link to={"/penny/targetAmount"}>
@@ -158,55 +160,65 @@ export default function GroupDonation() {
             >
               <span
                 style={{
-                  marginBottom: "10px",
-                  marginTop: "-6px",
+                  marginBottom: "12px",
+                  marginTop: "-12px",
                   fontSize: "10pt",
                 }}
               >
                 모금 단체 - {donationData.donateOrganization}
               </span>
-              <span>
-                현재까지{" "}
-                <span
-                  style={{
-                    fontSize: "16pt",
-                    fontWeight: "bold",
-                    color: "#0062ff",
-                  }}
-                >
-                  {(donationData.donateAmount - 0).toLocaleString()}원
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  marginTop: "-3px",
+                }}
+              >
+                <span>
+                  현재까지{" "}
+                  <span
+                    style={{
+                      fontSize: "16pt",
+                      fontWeight: "bold",
+                      color: "#0062ff",
+                    }}
+                  >
+                    {(donationData.donateAmount - 0).toLocaleString()}원
+                  </span>
+                  모금했어요
                 </span>
-                모금했어요
-              </span>
-              <span>
-                목표 금액까지{" "}
-                <span
-                  style={{
-                    fontSize: "16pt",
-                    fontWeight: "bold",
-                    color: "#f29100",
-                  }}
-                >
-                  {(
-                    donationData.targetAmount - donationData.donateAmount
-                  ).toLocaleString()}
-                  원
-                </span>{" "}
-                남았어요
-              </span>
-              {donationData.targetAmount ? (
-                <DonationAmountGraph
-                  chartData={[
-                    {
-                      label: "",
-                      currentAmount: donationData.donateAmount,
-                      restAmount:
-                        donationData.targetAmount - donationData.donateAmount,
-                    },
-                  ]}
-                  targetAmount={donationData.targetAmount}
-                ></DonationAmountGraph>
-              ) : null}
+                <span>
+                  목표 금액까지{" "}
+                  <span
+                    style={{
+                      fontSize: "16pt",
+                      fontWeight: "bold",
+                      color: "#f29100",
+                    }}
+                  >
+                    {(
+                      donationData.targetAmount - donationData.donateAmount
+                    ).toLocaleString()}
+                    원
+                  </span>{" "}
+                  남았어요
+                </span>
+                {donationData.targetAmount ? (
+                  <DonationAmountGraph
+                    chartData={[
+                      {
+                        label: "",
+                        currentAmount: donationData.donateAmount,
+                        restAmount:
+                          donationData.targetAmount - donationData.donateAmount,
+                      },
+                    ]}
+                    targetAmount={donationData.targetAmount}
+                  ></DonationAmountGraph>
+                ) : null}
+              </div>
             </div>
             <div>
               <span
