@@ -28,6 +28,8 @@ export default function GroupDonation() {
   const [donationData, setDonationData] = useState({});
   const [currentDonationHistory, setCurrentDonationHistory] = useState([]);
   const [userData, setUserData] = useState({});
+  const [groupUserData, setGroupUserData] = useState([]);
+  const [groupUserSize, setGroupUserSize] = useState(0);
   const [screenHeight, setScreenHeight] = useState(window.innerHeight);
   const [loading, setLoading] = useState(true);
   const userId = localStorage.getItem("userId");
@@ -45,13 +47,30 @@ export default function GroupDonation() {
       const userSnapshot = await userRef.get();
       setUserData(userSnapshot.data());
       getCurrentHistory(userSnapshot.data().currentDonationOrganization);
+      const orgName = userSnapshot.data().currentDonationOrganization;
+
+      const groupUserRef = firestore.collection("user");
+      const groupUserQuery = groupUserRef.where(
+        "currentDonationOrganization",
+        "==",
+        orgName
+      );
+      const groupUserSnapshot = await groupUserQuery.get();
+      const groupUserList = [];
+      groupUserSnapshot.forEach((doc) => {
+        groupUserList.push({
+          name: doc.data().name,
+          imageUrl: doc.data().imageUrl,
+        });
+      });
+      groupUserList.sort((a, b) => {
+        return a.name.localeCompare(b.name, "ko");
+      });
+      setGroupUserData(groupUserList);
+      setGroupUserSize(groupUserSnapshot.size);
 
       const orgRef = firestore.collection("organization");
-      const orgQuery = orgRef.where(
-        "name",
-        "==",
-        userSnapshot.data().currentDonationOrganization
-      );
+      const orgQuery = orgRef.where("name", "==", orgName);
       const orgSnapshot = await orgQuery.get();
 
       if (!orgSnapshot.empty) {
@@ -82,6 +101,7 @@ export default function GroupDonation() {
       const promises = currHisSnapshot.docs.map(async (doc) => {
         const currHisDocRef = await currHisRef.doc(doc.id).get();
         historyArray.push({
+          order: currHisDocRef.data().date.toDate(),
           date: currHisDocRef.data().date.toDate().toLocaleDateString(),
           time: currHisDocRef.data().date.toDate().toLocaleTimeString([], {
             hour: "2-digit",
@@ -95,9 +115,7 @@ export default function GroupDonation() {
       });
       await Promise.all(promises);
       historyArray.sort((a, b) => {
-        const dateA = new Date(a.date + " " + a.time);
-        const dateB = new Date(b.date + " " + b.time);
-        return dateB - dateA;
+        return b.order - a.order;
       });
       setCurrentDonationHistory(historyArray);
     }
@@ -126,7 +144,7 @@ export default function GroupDonation() {
           <Container
             style={{
               background: "lightblue",
-              height: screenHeight * 0.355,
+              height: screenHeight * 0.42,
               paddingTop: "20px",
             }}
           >
@@ -136,8 +154,6 @@ export default function GroupDonation() {
                 display: "flex",
                 justifyContent: "space-between",
                 alignItems: "center",
-                paddingLeft: "16px",
-                paddingRight: "16px",
               }}
             >
               <IconButton onClick={handleCloseScreen}>
@@ -146,7 +162,13 @@ export default function GroupDonation() {
                   style={{ color: "black", transform: "scaleX(-1)" }}
                 />
               </IconButton>
-              <span style={{ fontSize: "14pt", fontWeight: "bolder" }}>
+              <span
+                style={{
+                  fontSize: "12pt",
+                  fontWeight: "bolder",
+                  marginTop: "-5px",
+                }}
+              >
                 함께 모금
               </span>
               <IconButton>
@@ -169,67 +191,93 @@ export default function GroupDonation() {
             >
               <span
                 style={{
-                  marginBottom: "10px",
-                  marginTop: "-6px",
+                  marginBottom: "12px",
+                  marginTop: "-12px",
                   fontSize: "10pt",
                 }}
               >
                 모금 단체 - {donationData.donateOrganization}
               </span>
-              <span>
-                현재까지 다함께{" "}
-                <span
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "center",
+                  marginTop: "-3px",
+                  fontSize: "12pt",
+                }}
+              >
+                <div
                   style={{
-                    fontSize: "16pt",
-                    fontWeight: "bold",
-                    color: "#0062ff",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
                   }}
                 >
-                  {(donationData.groupAmount - 0).toLocaleString()}원
-                </span>{" "}
-                모금했어요
-              </span>
-              <span>
-                내가 모금한 금액:{" "}
-                <span
+                  <span>다함께 모금한 금액: </span>
+                  <span
+                    style={{
+                      fontSize: "16pt",
+                      fontWeight: "bold",
+                      color: "#0062ff",
+                    }}
+                  >
+                    {(donationData.groupAmount - 0).toLocaleString()}원
+                  </span>
+                </div>
+                <div
                   style={{
-                    fontSize: "16pt",
-                    fontWeight: "bold",
-                    color: "black",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
                   }}
                 >
-                  {(donationData.donateAmount - 0).toLocaleString()}원
-                </span>
-              </span>
-              <span>
-                목표 금액까지{" "}
-                <span
+                  <span>내가 모금한 금액:</span>
+                  <span
+                    style={{
+                      fontSize: "16pt",
+                      fontWeight: "bold",
+                      color: "black",
+                    }}
+                  >
+                    {(donationData.donateAmount - 0).toLocaleString()}원
+                  </span>
+                </div>
+                <div
                   style={{
-                    fontSize: "16pt",
-                    fontWeight: "bold",
-                    color: "#f29100",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
                   }}
                 >
-                  {(
-                    donationData.targetAmount - donationData.donateAmount
-                  ).toLocaleString()}
-                  원
-                </span>{" "}
-                남았어요
-              </span>
-              {donationData.targetAmount ? (
-                <DonationAmountGraph
-                  chartData={[
-                    {
-                      label: "",
-                      currentAmount: donationData.groupAmount,
-                      restAmount:
-                        donationData.targetAmount - donationData.groupAmount,
-                    },
-                  ]}
-                  targetAmount={donationData.targetAmount}
-                ></DonationAmountGraph>
-              ) : null}
+                  <span>남은 금액:</span>
+                  <span
+                    style={{
+                      fontSize: "16pt",
+                      fontWeight: "bold",
+                      color: "#f29100",
+                    }}
+                  >
+                    {(
+                      donationData.targetAmount - donationData.donateAmount
+                    ).toLocaleString()}
+                    원
+                  </span>
+                </div>
+                {donationData.targetAmount ? (
+                  <DonationAmountGraph
+                    chartData={[
+                      {
+                        label: "",
+                        currentAmount: donationData.groupAmount,
+                        restAmount:
+                          donationData.targetAmount - donationData.groupAmount,
+                      },
+                    ]}
+                    targetAmount={donationData.targetAmount}
+                  ></DonationAmountGraph>
+                ) : null}
+              </div>
             </div>
             <div>
               <span
@@ -254,20 +302,53 @@ export default function GroupDonation() {
                 </span>
               </span>
             </div>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "center",
+                paddingTop: "10px",
+              }}
+            >
+              <span>
+                현재{" "}
+                <span
+                  style={{
+                    fontSize: "14pt",
+                    fontWeight: "bold",
+                    color: "black",
+                  }}
+                >
+                  {groupUserSize}명
+                </span>
+                이 뜻을 함께하고 있어요!
+              </span>
+              <Link
+                to={"/penny/groupUserList"}
+                state={{ groupUserData: groupUserData }}
+                style={{ marginTop: "-6px", color: "#005cae" }}
+              >
+                <span style={{ fontSize: "8pt", fontWeight: 'light' }}>
+                  어떤 분들과 함께하고 있는지 궁금하신가요?
+                </span>
+              </Link>
+            </div>
           </Container>
           <Container
             style={{
               background: "white",
-              height: screenHeight * 0.637,
+              height: screenHeight * 0.562,
               overflow: "auto",
               padding: "0px",
             }}
           >
             <div style={{ width: "100%" }}>
-              {currentDonationHistory.map((h) => {
+              {currentDonationHistory.map((h, index) => {
                 return (
                   <>
                     <div
+                      key={index}
                       style={{
                         display: "flex",
                         justifyContent: "space-between",
