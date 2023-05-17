@@ -8,10 +8,10 @@ const SignIn = () => {
   const navigate = useNavigate();
 
   const handleSuccess = async (response) => {
-    console.log(response);
-    console.log(response.profile.properties.nickname);
-    console.log(response.profile.properties.profile_image);
-    console.log(response.profile.id);
+    // console.log(response);
+    // console.log(response.profile.properties.nickname);
+    // console.log(response.profile.properties.profile_image);
+    // console.log(response.profile.id);
     const userId = response.profile.id.toString();
     const userName = response.profile.properties.nickname;
     const imageUrl = response.profile.properties.profile_image;
@@ -26,6 +26,8 @@ const SignIn = () => {
           imageUrl: response.profile.properties.profile_image,
           currentDonationType: 'undefined',
           currentDonationOrganization: 'undefined',
+          totalDonationAmount: 0,
+          isPenny: false,
         },
         { merge: true }
       );

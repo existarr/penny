@@ -29,7 +29,6 @@ user.map((u) => {
 const Home = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  console.log(location);
   const [screenHeight, setScreenHeight] = useState(window.innerHeight);
   const [userData, setUserData] = useState({});
   const userId = localStorage.getItem("userId");
@@ -40,26 +39,50 @@ const Home = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [donateValue, setDonateValue] = useState(0);
   const [isOverOpen, setIsOverOpen] = useState(false);
+  const [counter, setCounter] = useState(0);
 
   const openDialog = async (value) => {
-    if (organizationData.currentAmount < organizationData.targetAmount) {
-      setDonateValue(value);
-      setIsOpen(true);
-    } else {
-      const userRef = firestore.collection("user").doc(userId);
-      userRef
-        .update({
-          currentDonationOrganization: "undefined",
-          currentDonationAmount: 0,
-        })
-        .then(() => {
-          setUserData((prevUserData) => ({
-            ...prevUserData,
+    if (userData.currentDonationType == "single") {
+      if (userData.currentDonationAmount < userData.targetDonationAmount) {
+        setDonateValue(value);
+        setIsOpen(true);
+      } else {
+        const userRef = firestore.collection("user").doc(userId);
+        userRef
+          .update({
+            currentDonationOrganization: "undefined",
             currentDonationAmount: 0,
-            currentDonationOrganization: 'undefined',
-          }));
-          setIsOverOpen(true);
-        });
+            targetDonationAmount: 0,
+          })
+          .then(() => {
+            setUserData((prevUserData) => ({
+              ...prevUserData,
+              currentDonationAmount: 0,
+              currentDonationOrganization: "undefined",
+              targetDonationAmount: 0,
+            }));
+            setIsOverOpen(true);
+          });
+      }
+    } else {
+      if (organizationData.currentAmount < organizationData.targetAmount) {
+        const userRef = firestore.collection("user").doc(userId);
+        userRef
+          .update({
+            currentDonationOrganization: "undefined",
+            currentDonationAmount: 0,
+            targetDonationAmount: 0,
+          })
+          .then(() => {
+            setUserData((prevUserData) => ({
+              ...prevUserData,
+              currentDonationAmount: 0,
+              currentDonationOrganization: "undefined",
+              targetDonationAmount: 0,
+            }));
+            setIsOverOpen(true);
+          });
+      }
     }
   };
 
@@ -69,7 +92,13 @@ const Home = () => {
     // setUserData(userSnapshot.data());
     await userRef.update({
       currentDonationAmount: userData.currentDonationAmount + amount,
+      totalDonationAmount: userData.totalDonatinoAmount + amount,
     });
+    setUserData((prevUserData) => ({
+      ...prevUserData,
+      currentDonationAmount: userData.currentDonationAmount + amount,
+      totalDonationAmount: userData.totalDonatinoAmount + amount,
+    }));
     const accountRef = firestore
       .collection("user")
       .doc(userId)
@@ -102,7 +131,7 @@ const Home = () => {
         orgSnapshot.forEach(async (doc) => {
           const orgDocRef = await orgRef.doc(doc.id).get();
           const orgData = orgDocRef.data();
-          console.log(orgData);
+          // console.log(orgData);
           const updatedCurrentAmount = orgData.currentAmount + amount;
           orgRef
             .doc(doc.id)
@@ -141,25 +170,37 @@ const Home = () => {
   };
 
   const linkToCurrentHistory = async () => {
-    if (organizationData.currentAmount <= organizationData.targetAmount) {
-      if (userData.currentDonationType == "single")
+    const userRef = firestore.collection("user").doc(userId);
+    if (userData.currentDonationType == "single") {
+      if (userData.currentDonationAmount < userData.targetDonationAmount) {
         navigate("/penny/singleDonation");
-      else navigate("/penny/groupDonation");
+      } else {
+        userRef
+          .update({
+            currentDonationOrganization: "undefined",
+            currentDonationAmount: 0,
+            targetDonationAmount: 0,
+          })
+          .then(setIsOverOpen(true));
+      }
     } else {
-      const userRef = firestore.collection("user").doc(userId);
-      userRef
-        .update({
-          currentDonationOrganization: "undefined",
-          currentDonationAmount: 0,
-        })
-        .then(setIsOverOpen(true));
+      if (organizationData.currentAmount < organizationData.targetAmount) {
+        navigate("/penny/groupDonation");
+      } else {
+        userRef
+          .update({
+            currentDonationOrganization: "undefined",
+            currentDonationAmount: 0,
+          })
+          .then(setIsOverOpen(true));
+      }
     }
   };
 
   useEffect(() => {
     const callData = async () => {
       setLoading(true);
-      console.log(firestore);
+      // console.log(firestore);
       const userRef = firestore.collection("user").doc(userId);
       const userSnapshot = await userRef.get();
       setUserData(userSnapshot.data());
@@ -195,11 +236,8 @@ const Home = () => {
         orgSnapshot.forEach(async (doc) => {
           const orgDocRef = await orgRef.doc(doc.id).get();
           const orgData = orgDocRef.data();
+          setOrganizationData(orgData);
           console.log(orgData);
-          setOrganizationData({
-            currentAmount: orgData.currentAmount,
-            targetAmount: orgData.targeAmount,
-          });
         });
       }
     };
@@ -208,7 +246,61 @@ const Home = () => {
       localStorage.setItem("donationType", userData.currentDonationType);
 
     callData();
-  }, [currentBalance]);
+  }, [counter, userData.currentDonationAmount, userData.currentDonationOrganization]);
+
+  useEffect(() => {
+    const interval = setInterval(async () => {
+      if (userData && userData.donationAccount) {
+        const randomAmount =
+          Math.floor(Math.random() * (20000 - 3000 + 1)) + 3000;
+        const updatedBalance = currentBalance - randomAmount;
+
+        const accountRef = firestore
+          .collection("user")
+          .doc(userId)
+          .collection("account");
+
+        const query = accountRef.where(
+          "number",
+          "==",
+          userData.donationAccount
+        );
+        const snapshot = await query.get();
+
+        if (!snapshot.empty) {
+          snapshot.forEach((doc) => {
+            const accountDocRef = accountRef.doc(doc.id);
+            const userData = doc.data();
+            const updatedBalance = userData.balance - randomAmount;
+            accountDocRef
+              .update({ balance: updatedBalance }, { merge: true })
+              .then(() => {
+                setCurrentBalance(updatedBalance);
+                setAccountData((prevAccData) => {
+                  const updatedAccData = prevAccData.map((acc) => {
+                    if (acc.number === userData.donationAccount) {
+                      return {
+                        ...acc,
+                        balance: updatedBalance,
+                      };
+                    }
+                    return acc;
+                  });
+                  return updatedAccData;
+                });
+              });
+          });
+        }
+        console.log(currentBalance);
+        console.log(updatedBalance);
+        setCounter((prevCounter) => prevCounter + 1);
+      }
+    }, 10000);
+
+    return () => {
+      clearInterval(interval);
+    };
+  }, [currentBalance, userId, userData]);
 
   return (
     <>
@@ -245,6 +337,7 @@ const Home = () => {
               <Button
                 onClick={() => {
                   setIsOverOpen(false);
+                  setCounter((prevCounter) => prevCounter + 1);
                 }}
               >
                 아니오
@@ -297,7 +390,7 @@ const Home = () => {
               />
             </div>
             <div style={{ marginLeft: "10px", marginRight: "10px" }}>
-              {userData.isPenny == null ? (
+              {userData.isPenny == false ? (
                 <>
                   <Link
                     to={"/penny/startDonation"}

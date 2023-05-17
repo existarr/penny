@@ -30,13 +30,13 @@ export default function App() {
   useEffect(() => {
     const callData = async () => {
       setLoading(true);
-      console.log(firestore);
+      // console.log(firestore);
       const userRef = firestore.collection("user").doc(userId);
       const userSnapshot = await userRef.get();
       if (userData == null) setUserData(userSnapshot.data());
       setLoading(false);
-      console.log(userData.currentDonationOrganization);
-      console.log(location.state.userData);
+      // console.log(userData.currentDonationOrganization);
+      // console.log(location.state.userData);
     };
     callData();
   }, []);
@@ -47,11 +47,13 @@ export default function App() {
     const currhisRef = userRef.collection("currentHistory");
     const currHisSnapshot = await currhisRef.get();
     if (!currHisSnapshot.empty) {
-      const deletePromises = currHisSnapshot.docs.map((doc) => doc.ref.delete());
+      const deletePromises = currHisSnapshot.docs.map((doc) =>
+        doc.ref.delete()
+      );
       await Promise.all(deletePromises);
     }
 
-    if (donationType == "single") {
+    if (userData.currentDonationType == "single") {
       await userRef.set(
         {
           ...location.state.userData,

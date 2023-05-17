@@ -35,7 +35,7 @@ const Main = styled('div')(({ theme }) => ({
 
 export default function DonationLayout() {
   const [open, setOpen] = useState(false);
-  const footerPaths = ["/penny/home", "/penny/donation", "/penny/singleDonation", "/penny/groupDonation", "/penny/donationHistory"];
+  const footerPaths = ["/penny/home",  "/penny/donation", "/penny/singleDonation", "/penny/groupDonation", "/penny/donationHistory", "/penny/userRanking", "/penny/organization-list",];
   const showFooter = footerPaths.includes(useLocation().pathname);
 
   return (

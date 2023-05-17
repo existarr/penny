@@ -22,48 +22,27 @@ const DetailsButtonWrapper = styled(Button)(({ theme }) => ({
   padding: theme.spacing(0.5, 1),
 }));
 
-export default function ListOfCenter() {
+export default function UserRanking() {
   const navigate = useNavigate();
   const location = useLocation();
   const [organizations, setOrganizations] = useState([]);
   const [loading, setLoading] = useState([]);
   const [userData, setUserData] = useState({});
+  const [userList, setUserList] = useState([]);
   const userId = localStorage.getItem("userId");
 
   useEffect(() => {
     const callData = async () => {
       setLoading(true);
-      const userRef = firestore.collection("user").doc(userId);
+      const userRef = firestore.collection("user");
       const userSnapshot = await userRef.get();
-      if (location.state && location.state.userData) {
-        setUserData(location.state.userData);
-      } else {
-        setUserData(userSnapshot.data());
-      }
-      const orgRef = firestore.collection("organization");
-      const organizationData = [];
-      const querySnapshot = await orgRef.get();
-      querySnapshot.forEach((doc) => {
-        const {
-          name,
-          location,
-          description,
-          overview,
-          targetAmount,
-          startDate,
-          endDate,
-        } = doc.data();
-        organizationData.push({
-          name: name,
-          location: location,
-          description: description,
-          overview: overview,
-          targetAmount: targetAmount,
-          startDate: startDate.toDate(),
-          endDate: endDate.toDate(),
-        });
-      });
-      setOrganizations(organizationData);
+      const userListData = userSnapshot.docs
+        .map((doc) => doc.data())
+        .filter((user) => user.isPenny);
+      userListData.sort(
+        (a, b) => b.totalDonationAmount - a.totalDonationAmount
+      );
+      setUserList(userListData);
       setLoading(false);
     };
 
@@ -88,7 +67,7 @@ export default function ListOfCenter() {
             style={{ color: "black", transform: "scaleX(-1)" }}
           />
         </IconButton>
-        <p style={{ fontSize: "11pt" }}>기관 소개</p>
+        <p style={{ fontSize: "11pt" }}>사용자 랭킹</p>
         <IconButton>
           <Iconify
             icon="eva:settings-2-fill"
@@ -109,35 +88,24 @@ export default function ListOfCenter() {
         </div>
       ) : (
         <div>
-          {organizations.map((organization, index) => (
+          {userList.map((user, index) => (
             <div
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              borderBottom: "1px solid rgba(0, 0, 0, 0.1)",
-              width: "100%",
-              padding: "12px 20px",
-            }}
-          >
-                <div>
-                  <Typography variant="h6" gutterBottom>
-                    {organization.name}
-                  </Typography>
-                  <Typography variant="body2" gutterBottom>
-                    {organization.donationOverview}
-                  </Typography>
-                </div>
-                <Link
-                  to={"/penny/organization-detail"}
-                  state={{ organization: organization, userData: userData }}
-                >
-                  <DetailsButtonWrapper variant="outlined">
-                    자세히
-                  </DetailsButtonWrapper>
-                </Link>
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                borderBottom: "1px solid rgba(0, 0, 0, 0.1)",
+                width: "100%",
+                padding: "12px 20px",
+              }}
+            >
+              <div>
+                <span style={{fontWeight: 'bold'}}>{user.totalDonationAmount == 0 ? null : index + 1}</span>
+                <span style={{marginLeft: '5px'}}>{user.name}</span>
+              </div>
+              <span>{user.totalDonationAmount == 0 ? "-" : user.totalDonationAmount + "원"}</span>
             </div>
           ))}
-          </div>
+        </div>
       )}
     </>
   );

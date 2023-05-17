@@ -23,7 +23,7 @@ const FundraisingConfirmation = () => {
   const accountInfo = user[0]?.account || {};
   const [fundraisingType, setFundraisingType] = React.useState("personal");
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const targetAmount = localStorage.getItem('target');
+  const targetAmount = parseInt(localStorage.getItem('target'));
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -51,7 +51,7 @@ const FundraisingConfirmation = () => {
       .doc(localStorage.getItem("userId"));
     await userRef.set(
       {
-        targetDonationAmount: localStorage.getItem("target"),
+        targetDonationAmount: targetAmount,
       },
       { merge: true }
     );
@@ -99,7 +99,7 @@ const FundraisingConfirmation = () => {
         </Typography>
         <br />
         <Typography variant="h1" align="center">
-          {(parseInt(targetAmount)).toLocaleString()}원
+          {targetAmount.toLocaleString()}원
         </Typography>
         <br />
 

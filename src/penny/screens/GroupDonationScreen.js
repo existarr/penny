@@ -79,7 +79,7 @@ export default function GroupDonation() {
     const currHisSnapshot = await currHisQuery.get();
     const historyArray = [];
     if (!currHisSnapshot.empty) {
-      currHisSnapshot.forEach(async (doc) => {
+      const promises = currHisSnapshot.docs.map(async (doc) => {
         const currHisDocRef = await currHisRef.doc(doc.id).get();
         historyArray.push({
           date: currHisDocRef.data().date.toDate().toLocaleDateString(),
@@ -92,18 +92,18 @@ export default function GroupDonation() {
           amount: currHisDocRef.data().amount.toLocaleString(),
           accumulate: currHisDocRef.data().accumulate.toLocaleString(),
         });
-        console.log(historyArray);
       });
+      await Promise.all(promises);
       historyArray.sort((a, b) => {
         const dateA = new Date(a.date + " " + a.time);
         const dateB = new Date(b.date + " " + b.time);
-        return dateA - dateB;
+        return dateB - dateA;
       });
       setCurrentDonationHistory(historyArray);
     }
   };
 
-  console.log(currentDonationHistory);
+  // console.log(currentDonationHistory);
 
   return (
     <>
@@ -217,17 +217,19 @@ export default function GroupDonation() {
                 </span>{" "}
                 남았어요
               </span>
-              {donationData.targetAmount ? <DonationAmountGraph
-                chartData={[
-                  {
-                    label: "",
-                    currentAmount: donationData.groupAmount,
-                    restAmount:
-                      donationData.targetAmount - donationData.groupAmount,
-                  },
-                ]}
-                targetAmount={donationData.targetAmount}
-              ></DonationAmountGraph> : null}
+              {donationData.targetAmount ? (
+                <DonationAmountGraph
+                  chartData={[
+                    {
+                      label: "",
+                      currentAmount: donationData.groupAmount,
+                      restAmount:
+                        donationData.targetAmount - donationData.groupAmount,
+                    },
+                  ]}
+                  targetAmount={donationData.targetAmount}
+                ></DonationAmountGraph>
+              ) : null}
             </div>
             <div>
               <span
