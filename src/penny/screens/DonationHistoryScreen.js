@@ -44,7 +44,7 @@ export default function DonationHistory() {
   }
 
   importAll(require.context("../assets/", true, /\.png$/));
-  console.log(images);
+  // console.log(images);
 
   const navigate = useNavigate();
   const handleButtonClick = () => {

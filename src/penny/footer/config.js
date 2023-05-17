@@ -17,7 +17,7 @@ const footerNavConfig = [
     icon: icon("ic_analytics"),
   },{
     title: "진행 중인 모금",
-    path: '/penny/groupDonation',
+    path: localStorage.getItem('donationType') == 'single' ? '/pennysingleDonation' : '/penny/groupDonation',
     icon: icon("ic_blog"),
   },
   {
@@ -27,7 +27,7 @@ const footerNavConfig = [
   },
   {
     title: "기부 랭킹",
-    path: "/penny/home",
+    path: "/penny/userRanking",
     icon: icon("ic_disabled"),
   },
   {

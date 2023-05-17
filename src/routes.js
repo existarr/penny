@@ -26,6 +26,7 @@ import Checkamount from "./penny/screens/checktargetamount";
 import ListofCenter from "./penny/screens/listofcenter";
 import OrganizationDetail from "./penny/screens/OrganizationDetailScreen";
 import SignIn from "./penny/screens/SignIn";
+import UserRankingScreen from './penny/screens/UserRankingScreen';
 // ———————————————————————————————————
 
 export default function Router() {
@@ -61,6 +62,7 @@ export default function Router() {
         { path: "organization-detail", element: <OrganizationDetail /> },
         { path: "singleDonation", element: <SingleDonationScreen /> },
         { path: "groupDonation", element: <GroupDonationScreen /> },
+        { path: "userRanking", element: <UserRankingScreen />},
         { path: "donationHistory", element: <DonationHistoryScreen /> },
       ],
     },

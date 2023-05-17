@@ -54,7 +54,7 @@ export default function App() {
 
   useEffect(() => {
     const callData = async () => {
-      console.log(firestore);
+      // console.log(firestore);
       const userRef = firestore.collection("user").doc(userId);
       const userSnapshot = await userRef.get();
       setUserData(userSnapshot.data());
@@ -85,15 +85,7 @@ export default function App() {
     };
 
     callData();
-    // setUserData(
-    //   user.map((u) => ({
-    //     donationAccount: null,
-    //     isAuto: u.isAuto,
-    //     autoDonationAmount: u.autoDonationAmount,
-    //     currentDonationType: u.currentDonationType,
-    //   }))[0]
-    // );
-  }, []);
+  }, [userId]);
 
   const handleSelect = (e) => {
     setUserData((prevUserData) => ({
@@ -105,7 +97,7 @@ export default function App() {
   useEffect(() => {
     console.log(userData);
     let hasNull = Object.values(userData).includes(null);
-    console.log(hasNull);
+    // console.log(hasNull);
     if (hasNull) {
       setIsValid(false);
     } else {

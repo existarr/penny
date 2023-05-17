@@ -40,7 +40,7 @@ export default function AccountPopover() {
 
   useEffect(() =>{
     const callData = async () => {
-      console.log(firestore);
+      // console.log(firestore);
       const userRef = firestore.collection("user").doc(localStorage.getItem('userId'));
       const userSnapshot = await userRef.get();
       setUserData(userSnapshot.data());
@@ -52,7 +52,7 @@ export default function AccountPopover() {
   return (
     <>
       <IconButton
-        onClick={handleOpen}
+        // onClick={handleOpen}
         sx={{
           p: 0,
           ...(open && {
