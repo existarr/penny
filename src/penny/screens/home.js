@@ -335,12 +335,24 @@ const Home = () => {
               <Button
                 onClick={() => {
                   {
+                    localStorage.setItem("currentDonationType", "single");
                     navigate("/penny/organization-list");
                     setIsOverOpen(false);
                   }
                 }}
               >
-                예
+                개인 모금
+              </Button>
+              <Button
+                onClick={() => {
+                  {
+                    localStorage.setItem("currentDonationType", "group");
+                    navigate("/penny/organization-list");
+                    setIsOverOpen(false);
+                  }
+                }}
+              >
+                함께 모금
               </Button>
               <Button
                 onClick={() => {
@@ -348,7 +360,7 @@ const Home = () => {
                   setCounter((prevCounter) => prevCounter + 1);
                 }}
               >
-                아니오
+                취소
               </Button>
             </DialogActions>
           </Dialog>

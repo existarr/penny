@@ -25,7 +25,8 @@ export default function App() {
   const [userData, setUserData] = useState(location.state.userData);
   const [orgInfo, setOrgInfo] = useState(location.state.organization);
   const [screenHeight, setScreenHeight] = useState(window.innerHeight);
-  const donationType = localStorage.getItem("donationType");
+  const donationType = localStorage.getItem("currentDonationType") == null ? localStorage.getItem("donationType") : localStorage.getItem("currentDonationType");
+  const currDonationType = localStorage.getItem("currentDonationType");
 
   useEffect(() => {
     const callData = async () => {
@@ -60,6 +61,7 @@ export default function App() {
           currentDonationOrganization: orgInfo.name,
           cuttentDonationStartDate: serverTimestamp(),
           currentDonationAmount: 0,
+          currentDonationType: 'single',
           isPenny: true,
         },
         { merge: true }
@@ -72,6 +74,7 @@ export default function App() {
           currentDonationOrganization: orgInfo.name,
           cuttentDonationStartDate: serverTimestamp(),
           currentDonationAmount: 0,
+          currentDonationType: 'group',
           targetDonationAmount: orgInfo.targetAmount,
           isPenny: true,
         },

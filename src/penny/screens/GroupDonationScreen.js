@@ -23,6 +23,7 @@ import organizations from "../data/organizations";
 //import components
 import AccountCard from "../components/AccountCard";
 import DonationAmountGraph from "../components/DonationAmountGraph";
+import ryanIcon from "../assets/ryan_icon.png";
 
 export default function GroupDonation() {
   const [donationData, setDonationData] = useState({});
@@ -58,16 +59,19 @@ export default function GroupDonation() {
       const groupUserSnapshot = await groupUserQuery.get();
       const groupUserList = [];
       groupUserSnapshot.forEach((doc) => {
-        groupUserList.push({
-          name: doc.data().name,
-          imageUrl: doc.data().imageUrl,
-        });
+        if (doc.data().id != userId) {
+          groupUserList.push({
+            id: doc.data().id,
+            name: doc.data().name,
+            imageUrl: doc.data().imageUrl,
+          });
+        }
       });
       groupUserList.sort((a, b) => {
         return a.name.localeCompare(b.name, "ko");
       });
       setGroupUserData(groupUserList);
-      setGroupUserSize(groupUserSnapshot.size);
+      setGroupUserSize(groupUserSnapshot.size - 1);
 
       const orgRef = firestore.collection("organization");
       const orgQuery = orgRef.where("name", "==", orgName);
@@ -302,38 +306,58 @@ export default function GroupDonation() {
                 </span>
               </span>
             </div>
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                justifyContent: "center",
-                paddingTop: "10px",
-              }}
-            >
-              <span>
-                현재{" "}
-                <span
+            {groupUserSize == 0 ? (
+              <>
+                <div
                   style={{
-                    fontSize: "14pt",
-                    fontWeight: "bold",
-                    color: "black",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    marginLeft: '-10px',
                   }}
                 >
-                  {groupUserSize}명
-                </span>
-                이 뜻을 함께하고 있어요!
-              </span>
-              <Link
-                to={"/penny/groupUserList"}
-                state={{ groupUserData: groupUserData }}
-                style={{ marginTop: "-6px", color: "#005cae" }}
-              >
-                <span style={{ fontSize: "8pt", fontWeight: 'light' }}>
-                  어떤 분들과 함께하고 있는지 궁금하신가요?
-                </span>
-              </Link>
-            </div>
+                  <img src={ryanIcon} alt="" style={{ width: "50px" }} />
+                  <span style={{ fontSize: "10pt" }}>
+                    아직은 함께하고 있는 사람이 없어요{" "}
+                  </span>
+                </div>
+              </>
+            ) : (
+              <>
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    paddingTop: "10px",
+                  }}
+                >
+                  <span>
+                    현재{" "}
+                    <span
+                      style={{
+                        fontSize: "14pt",
+                        fontWeight: "bold",
+                        color: "black",
+                      }}
+                    >
+                      {groupUserSize}명
+                    </span>
+                    이 뜻을 함께하고 있어요!
+                  </span>
+                  <Link
+                    to={"/penny/groupUserList"}
+                    state={{ groupUserData: groupUserData }}
+                    style={{ marginTop: "-6px", color: "#005cae" }}
+                  >
+                    <span style={{ fontSize: "8pt", fontWeight: "light" }}>
+                      어떤 분들과 함께하고 있는지 궁금하신가요?
+                    </span>
+                  </Link>
+                </div>
+              </>
+            )}
           </Container>
           <Container
             style={{
