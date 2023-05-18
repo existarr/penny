@@ -137,7 +137,7 @@ export default function DonationHistory() {
       <Container
         style={{
           background: "white",
-          height: screenHeight * 0.65,
+          height: screenHeight * 0.75,
           overflow: "auto",
         }}
       >

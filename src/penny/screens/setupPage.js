@@ -37,7 +37,7 @@ export default function App() {
   });
   const [address, setAddress] = useState(null);
   const [isValid, setIsValid] = useState(false);
-  const userId = localStorage.getItem('userId');
+  const userId = localStorage.getItem("userId");
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -119,38 +119,55 @@ export default function App() {
     }
   }, [userData.isAuto]);
 
+  // const getAddress = (lat, lng) => {
+  //   const geocoder = new kakao.maps.services.Geocoder(); // 좌표 -> 주소로 변환해주는 객체
+  //   const coord = new kakao.maps.LatLng(lat, lng); // 주소로 변환할 좌표 입력
+  //   const callback = function (result, status) {
+  //     if (status === kakao.maps.services.Status.OK) {
+  //       setAddress(result[0].address);
+  //       setUserData((prevUserData) => ({
+  //         ...prevUserData,
+  //         address: result[0].address.address_name,
+  //       }));
+  //     }
+  //   };
+  //   geocoder.coord2Address(coord.getLng(), coord.getLat(), callback);
+  // };
+
   const getAddress = (lat, lng) => {
-    const geocoder = new kakao.maps.services.Geocoder(); // 좌표 -> 주소로 변환해주는 객체
-    const coord = new kakao.maps.LatLng(lat, lng); // 주소로 변환할 좌표 입력
-    const callback = function (result, status) {
-      if (status === kakao.maps.services.Status.OK) {
-        setAddress(result[0].address);
-        setUserData((prevUserData) => ({
-          ...prevUserData,
-          address: result[0].address.address_name,
-        }));
-      }
-    };
-    geocoder.coord2Address(coord.getLng(), coord.getLat(), callback);
+    setAddress("경북 포항시 북구 흥해읍 한동로 558");
+    setUserData((prevUserData) => ({
+      ...prevUserData,
+      address: "경북 포항시 북구 흥해읍 한동로 558",
+    }));
   };
+
+  // const getPosition = () => {
+  //   geolocation.getCurrentPosition(
+  //     (position) => {
+  //       setPosition({
+  //         latitude: position.coords.latitude,
+  //         longitude: position.coords.longitude,
+  //       });
+  //       getAddress(position.coords.latitude, position.coords.longitude);
+  //     },
+  //     (err) => {
+  //       console.error(err);
+  //     }
+  //   );
+  // };
 
   const getPosition = () => {
-    geolocation.getCurrentPosition(
-      (position) => {
-        setPosition({
-          latitude: position.coords.latitude,
-          longitude: position.coords.longitude,
-        });
-        getAddress(position.coords.latitude, position.coords.longitude);
-      },
-      (err) => {
-        console.error(err);
-      }
-    );
-  };
+    setPosition({
+      latitude: 36.102778,
+      longitude: 129.391389,
+    });
+    getAddress(position.latitude, position.longitude);
+  }
 
   const initialSetup = async () => {
-    localStorage.setItem('temporaryUserData', userData);
+    localStorage.setItem("temporaryUserData", userData);
+    localStorage.setItem("donationType", userData.currentDonationType);
     navigate("/penny/organization-list", {
       state: {
         id: userId,
@@ -378,14 +395,17 @@ export default function App() {
         }}
       >
         <Button
-          style={{ width: "100%", fontSize: "10pt", textAlign: 'center' }}
+          style={{ width: "100%", fontSize: "10pt", textAlign: "center" }}
           onClick={handleClickOpen}
         >
           {!position.latitude ? (
             "나의 위치 찾기"
           ) : address ? (
+            // <span style={{ letterSpacing: 1 }}>
+            //   현재 주소: {address.address_name}
+            // </span>
             <span style={{ letterSpacing: 1 }}>
-              현재 주소: {address.address_name}
+              현재 주소: {userData.address}
             </span>
           ) : null}
         </Button>
@@ -394,10 +414,9 @@ export default function App() {
             color: "red",
             fontSize: "6pt",
             height: "12px",
-            textAlign: 'center',
-            marginTop: '-8px',
-            visibility:
-              userData.address !== null ? "hidden" : "visible",
+            textAlign: "center",
+            marginTop: "-8px",
+            visibility: userData.address !== null ? "hidden" : "visible",
           }}
         >
           *위치 사용을 허용해 주세요.
@@ -485,11 +504,13 @@ export default function App() {
             border: "1px solid lightgray",
           }}
         >
+          {/* <MapMarker
+            position={{ lat: position.latitude, lng: position.longitude }}
+          /> */}
           <MapMarker
             position={{ lat: position.latitude, lng: position.longitude }}
-          >
+          />
             {/* <div style={{ color: "#000" }}>현재 위치</div> */}
-          </MapMarker>
         </Map>
       </div>
       {isValid ? (
