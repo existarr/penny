@@ -43,7 +43,7 @@ export default function ListOfCenter() {
       const orgRef = firestore.collection("organization");
       const organizationData = [];
       const querySnapshot = await orgRef.get();
-      querySnapshot.forEach((doc) => {
+      querySnapshot.forEach(async (doc) => {
         const {
           name,
           location,
@@ -52,6 +52,7 @@ export default function ListOfCenter() {
           targetAmount,
           startDate,
           endDate,
+          imageUrl,
         } = doc.data();
         organizationData.push({
           name: name,
@@ -61,7 +62,9 @@ export default function ListOfCenter() {
           targetAmount: targetAmount,
           startDate: startDate.toDate(),
           endDate: endDate.toDate(),
+          imageUrl: imageUrl,
         });
+        console.log(imageUrl);
       });
       setOrganizations(organizationData);
       setLoading(false);
