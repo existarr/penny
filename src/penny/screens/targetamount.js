@@ -31,103 +31,106 @@ export default function KeypadPage() {
         <title>Keypad Page</title>
       </Helmet>
 
-      <Container style={{ background: "#BFDDFB", height: "200px", paddingTop: "10px", display: "flex", flexDirection: "column", justifyContent: "flex-end"}}>
-        <div style={{display: "flex", justifyContent: "space-between", alignItems: "center", height: "150px"}}>
-          <IconButton onClick={() => navigate(-1)}>
-            <Iconify icon="eva:arrow-ios-forward-fill" style={{ color: "black", transform: "scaleX(-1)" }} />
-          </IconButton>
-          <span style={{ fontSize: "14pt" }}>금액 입력</span>
-          <IconButton>
-            <Iconify icon="eva:settings-2-fill" style={{ color: "black" }} />
-          </IconButton>
-        </div>
-        <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", width: "100%"}}>
-          <div style={{ marginBottom: "35px" }}>
-            {(inputValue - 0).toLocaleString()}원
-          </div>
-          <div style={{ display: "flex", justifyContent: "space-between", width: "100%", padding: "12px 8px" }}>
-            <Button onClick={() => handleSetButton(1000)} variant="contained" style={{flexGrow: 1, margin: "0 4px"}}>
-              1,000원
-            </Button>
-            <Button onClick={() => handleSetButton(5000)} variant="contained" style={{flexGrow: 1, margin: "0 4px"}}>
-              5,000원
-            </Button>
-            <Button onClick={() => handleSetButton(10000)} variant="contained" style={{flexGrow: 1, margin: "0 4px"}}>
-              10,000원
-            </Button>
-          </div>
-        </div>
-      </Container>
+      <Container style={{ background: "#F7E676", height: "200px", paddingTop: "10px", display: "flex", flexDirection: "column", justifyContent: "flex-end"}}>
+  <div style={{display: "flex", justifyContent: "space-between", alignItems: "center", height: "150px"}}>
+    <IconButton onClick={() => navigate(-1)} style={{padding: "6px"}}>
+      <Iconify icon="eva:arrow-ios-forward-fill" style={{ color: "black", transform: "scaleX(-1)", fontSize: "12pt" }} />
+    </IconButton>
+    <span style={{ fontSize: "12pt" }}>금액 입력</span>
+    <IconButton style={{padding: "6px"}}>
+      <Iconify icon="eva:settings-2-fill" style={{ color: "black", fontSize: "12pt" }} />
+    </IconButton>
+  </div>
+  <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", width: "100%"}}>
+    <div style={{ marginBottom: "35px", fontSize: "18pt" }}>
+      {(inputValue - 0).toLocaleString()}원
+    </div>
+    <div style={{ display: "flex", justifyContent: "space-between", width: "100%", padding: "8px" }}>
+      <Button onClick={() => handleSetButton(1000)} variant="contained" style={{flexGrow: 1, margin: "0 4px", fontSize: "10pt", padding: "4px", background: "#F7F7F7", color: "#555555", boxShadow: 'none'}}>
+        1,000원
+      </Button>
+      <Button onClick={() => handleSetButton(5000)} variant="contained" style={{flexGrow: 1, margin: "0 4px", fontSize: "10pt", padding: "4px", background: "#F7F7F7", color: "#555555", boxShadow: 'none'}}>
+        5,000원
+      </Button>
+      <Button onClick={() => handleSetButton(10000)} variant="contained" style={{flexGrow: 1, margin: "0 4px", fontSize: "10pt", padding: "4px", background: "#F7F7F7", color: "#555555", boxShadow: 'none'}}>
+        10,000원
+      </Button>
+    </div>
+  </div>
+</Container>
 
-      <Container style={{ background: "white", height: "440px", overflow: "auto", paddingTop: "20px" }}>
-        <div style={{ padding: "0 16px 16px 16px" }}>
-          <Grid container spacing={1}>
-            <Grid item xs={4}>
-              <Button variant="contained" onClick={() => handleButtonClick(1)} fullWidth style={{padding: "20px"}}>
-                1
-              </Button>
-            </Grid>
-            <Grid item xs={4}>
-              <Button variant="contained" onClick={() => handleButtonClick(2)} fullWidth style={{padding: "20px"}}>
-                2
-              </Button>
-            </Grid>
-            <Grid item xs={4}>
-              <Button variant="contained" onClick={() => handleButtonClick(3)} fullWidth style={{padding: "20px"}}>
-                3
-              </Button>
-            </Grid>
-            <Grid item xs={4}>
-              <Button variant="contained" onClick={() => handleButtonClick(4)} fullWidth style={{padding: "20px"}}>
-                4
-              </Button>
-            </Grid>
-            <Grid item xs={4}>
-              <Button variant="contained" onClick={() => handleButtonClick(5)} fullWidth style={{padding: "20px"}}>
-                5
-              </Button>
-            </Grid>
-            <Grid item xs={4}>
-              <Button variant="contained" onClick={() => handleButtonClick(6)} fullWidth style={{padding: "20px"}}>
-                6
-              </Button>
-            </Grid>
-            <Grid item xs={4}>
-              <Button variant="contained" onClick={() => handleButtonClick(7)} fullWidth style={{padding: "20px"}}>
-                7
-              </Button>
-            </Grid>
-            <Grid item xs={4}>
-              <Button variant="contained" onClick={() => handleButtonClick(8)} fullWidth style={{padding: "20px"}}>
-                8
-              </Button>
-            </Grid>
-            <Grid item xs={4}>
-              <Button variant="contained" onClick={() => handleButtonClick(9)} fullWidth style={{padding: "20px"}}>
-                9
-              </Button>
-            </Grid>
-            <Grid item xs={4}>
-              <Button variant="contained" onClick={() => setInputValue(0)} fullWidth style={{padding: "20px"}}>
-                C
-              </Button>
-            </Grid>
-            <Grid item xs={4}>
-              <Button variant="contained" onClick={() => handleButtonClick(0)} fullWidth style={{padding: "20px"}}>
-                0
-              </Button>
-            </Grid>
-            <Grid item xs={4}>
-              <Button variant="contained" onClick={() => setInputValue(inputValue.toString().slice(0, -1))} fullWidth style={{padding: "20px"}}>
-                ←
-              </Button>
-            </Grid>
-          </Grid>
-        </div>
-      </Container>
 
-      <Container style={{ background: "lightblue", height: "50px", display: "flex", alignItems: "center", justifyContent: "center", flexDirection: "row", padding: "0" }}>
-        <Button variant="contained" onClick={handleNextClick} style={{ width: "50%" }}>
+<Container style={{ background: "white", height: "440px", overflow: "auto", paddingTop: "20px"}}>
+  <div style={{ padding: "0 16px 16px 16px" }}>
+    <Grid container spacing={0}>
+      <Grid item xs={4} style={{border: '1px solid #E0E0E0'}}>
+        <Button variant="contained" onClick={() => handleButtonClick(1)} fullWidth style={{padding: "20px", borderRadius: 0, color: "#555555", background: "white", boxShadow: 'none'}}>
+          1
+        </Button>
+      </Grid>
+      <Grid item xs={4} style={{border: '1px solid #E0E0E0'}}>
+        <Button variant="contained" onClick={() => handleButtonClick(2)} fullWidth style={{padding: "20px", borderRadius: 0, color: "#555555", background: "white", boxShadow: 'none'}}>
+          2
+        </Button>
+      </Grid>
+      <Grid item xs={4} style={{border: '1px solid #E0E0E0'}}>
+        <Button variant="contained" onClick={() => handleButtonClick(3)} fullWidth style={{padding: "20px", borderRadius: 0, color: "#555555", background: "white", boxShadow: 'none'}}>
+          3
+        </Button>
+      </Grid>
+      <Grid item xs={4} style={{border: '1px solid #E0E0E0'}}>
+        <Button variant="contained" onClick={() => handleButtonClick(4)} fullWidth style={{padding: "20px", borderRadius: 0, color: "#555555", background: "white", boxShadow: 'none'}}>
+          4
+        </Button>
+      </Grid>
+      <Grid item xs={4} style={{border: '1px solid #E0E0E0'}}>
+        <Button variant="contained" onClick={() => handleButtonClick(5)} fullWidth style={{padding: "20px", borderRadius: 0, color: "#555555", background: "white", boxShadow: 'none'}}>
+          5
+        </Button>
+      </Grid>
+      <Grid item xs={4} style={{border: '1px solid #E0E0E0'}}>
+        <Button variant="contained" onClick={() => handleButtonClick(6)} fullWidth style={{padding: "20px", borderRadius: 0, color: "#555555", background: "white", boxShadow: 'none'}}>
+          6
+        </Button>
+      </Grid>
+      <Grid item xs={4} style={{border: '1px solid #E0E0E0'}}>
+      <Button variant="contained" onClick={() => handleButtonClick()} fullWidth style={{padding: "20px", borderRadius: 0, color: "#555555", background: "white", boxShadow: 'none'}}>
+          7
+        </Button>
+      </Grid>
+      <Grid item xs={4} style={{border: '1px solid #E0E0E0'}}>
+        <Button variant="contained" onClick={() => handleButtonClick(8)} fullWidth style={{padding: "20px", borderRadius: 0, color: "#555555", background: "white", boxShadow: 'none'}}>
+          8
+        </Button>
+      </Grid>
+      <Grid item xs={4} style={{border: '1px solid #E0E0E0'}}>
+        <Button variant="contained" onClick={() => handleButtonClick(9)} fullWidth style={{padding: "20px", borderRadius: 0, color: "#555555", background: "white", boxShadow: 'none'}}>
+          9
+        </Button>
+      </Grid>
+      <Grid item xs={4} style={{border: '1px solid #E0E0E0'}}>
+        <Button variant="contained" onClick={() => setInputValue(0)} fullWidth style={{padding: "20px", borderRadius: 0, color: "#555555", background: "white", boxShadow: 'none'}}>
+          C
+        </Button>
+      </Grid>
+      <Grid item xs={4} style={{border: '1px solid #E0E0E0'}}>
+        <Button variant="contained" onClick={() => handleButtonClick(0)} fullWidth style={{padding: "20px", borderRadius: 0, color: "#555555", background: "white", boxShadow: 'none'}}>
+          0
+        </Button>
+      </Grid>
+      <Grid item xs={4} style={{border: '1px solid #E0E0E0'}}>
+        <Button variant="contained" onClick={() => setInputValue(inputValue.toString().slice(0, -1))} fullWidth style={{padding: "20px", borderRadius: 0, color: "#555555", background: "white", boxShadow: 'none'}}>
+          ←
+        </Button>
+      </Grid>
+    </Grid>
+  </div>
+</Container>
+
+
+
+      <Container style={{ background: "#F7E676", height: "50px", display: "flex", alignItems: "center", justifyContent: "center", flexDirection: "row", padding: "0", marginTop: "0px"}}>
+        <Button variant="contained" onClick={handleNextClick} style={{ width: "50%", background: "#F7F7F7", color: "#555555", boxShadow: 'none'}}>
           다음
         </Button>
       </Container>
