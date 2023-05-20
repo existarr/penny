@@ -98,7 +98,7 @@ export default function App() {
             alignItems: "center",
             boxShadow: "0px 1px 5px rgba(0, 0, 0, 0.1)",
             padding: "0px 5px",
-            marginBottom: "10px",
+            marginBottom: "0px",
           }}
         >
           <IconButton onClick={() => navigate(-1)}>
@@ -127,15 +127,23 @@ export default function App() {
           <div style={{ height: screenHeight }}>
             {orgInfo && (
               <>
-                <span>기관명: {orgInfo.name}</span>
+                <div style={{ backgroundColor: "lightblue", height: "300px" }}><div style={{ textAlign: "center", paddingTop: "10px", fontWeight: 'bold' }}><span>{/*기관명: */}{orgInfo.name}({orgInfo.location})</span></div>
+                  <br />
+                  {/* <div style={{ textAlign: "right" , paddingLeft: '10px'}}>
+                    <span>{orgInfo.location}</span>
+                  </div> */}
+                  <br />
+                  <img src={orgInfo.imageUrl} width={300} height={200} style={{alignItems: 'center', margin: 'auto'}} alt="" /></div>
+
                 <br />
-                <span>위치: {orgInfo.location}</span>
+                {/* <span>소개글</span> */}
                 <br />
-                <img src={orgInfo.imageUrl} alt="" />
-                <br />
-                <span>소개글</span>
-                <br />
-                <span>{orgInfo.description}</span>
+                <div style={{ marginLeft: "20px", marginRight: "20px", marginBottom: "20px", fontWeight: 'bold' }}>
+                  <span>{orgInfo.overview}</span>
+                </div>
+                <div style={{ marginLeft: "20px", marginRight: "20px" }}>
+                  <span>{orgInfo.description}</span>
+                </div>
                 {/* {orgInfo[0].description.map((d) => (
               <span>
                 {d}
@@ -143,11 +151,12 @@ export default function App() {
               </span>
             ))} */}
                 <br />
-                <span>기부 한 줄 요약: {orgInfo.overview}</span>
+                
+                
+                <div style={{ marginLeft: "20px", marginRight: "20px" }}>
+                  <span>{/*목표 금액: */}{orgInfo.targetAmount.toLocaleString()}원 모금을 목표로 하고있어요</span>
+                </div>
                 <br />
-                <span>
-                  목표 금액: {orgInfo.targetAmount.toLocaleString()}원
-                </span>
               </>
             )}
             {userData.currentDonationOrganization == "undefined" ? (
