@@ -1,13 +1,14 @@
-import * as React from "react";
+import { useState } from "react";
 import Button from "@mui/material/Button";
 import { useNavigate, useLocation, Link } from "react-router-dom";
 
 export default function App() {
   const location = useLocation();
   const userId = localStorage.getItem("usreId");
+  const [screenHeight, setScreenHeight] = useState(window.innerHeight);
 
   return (
-    <div>
+    <div style={{height: screenHeight * 0.92}}>
       <div
         style={{
           display: "flex",
@@ -96,11 +97,11 @@ export default function App() {
             backgroundColor: "#F7E676",
             color: "black",
             width: "100%",
-            height: "46px",
+            height: screenHeight * 0.08,
             borderColor: "#F7E676",
-            position: "fixed",
-            top: "622px",
             borderRadius: 0,
+            position: "fixed",
+            bottom: 0,
           }}
         >
           Penny 신청하기

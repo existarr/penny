@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useState } from "react";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import Button from "@mui/material/Button";
 import Grid from "@mui/material/Grid";
@@ -21,9 +21,10 @@ import { firestore } from "./firebase-config";
 const FundraisingConfirmation = () => {
   const navigate = useNavigate();
   const accountInfo = user[0]?.account || {};
-  const [fundraisingType, setFundraisingType] = React.useState("personal");
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [fundraisingType, setFundraisingType] = useState("personal");
+  const [anchorEl, setAnchorEl] = useState(null);
   const targetAmount = parseInt(localStorage.getItem('target'));
+  const [screenHeight, setScreenHeight] = useState(window.innerHeight);
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -141,11 +142,13 @@ const FundraisingConfirmation = () => {
           style={{
             backgroundColor: "#F7E676",
             color: "black",
-            height: "46px",
+            height: screenHeight * 0.08,
             width: "100%",
             borderRadius: "5px",
             margin: "auto",
             display: "block",
+            position: 'fixed',
+            bottom: '0',
           }}
           onClick={handleConfirm}
         >

@@ -98,7 +98,7 @@ export default function App() {
             alignItems: "center",
             boxShadow: "0px 1px 5px rgba(0, 0, 0, 0.1)",
             padding: "0px 5px",
-            marginBottom: "10px",
+            marginBottom: "0px",
           }}
         >
           <IconButton onClick={() => navigate(-1)}>
@@ -127,15 +127,75 @@ export default function App() {
           <div style={{ height: screenHeight }}>
             {orgInfo && (
               <>
-                <span>기관명: {orgInfo.name}</span>
-                <br />
-                <span>위치: {orgInfo.location}</span>
-                <br />
-                <img src={orgInfo.imageUrl} alt="" />
-                <br />
-                <span>소개글</span>
-                <br />
-                <span>{orgInfo.description}</span>
+                <div style={{ backgroundColor: "#BFDDFB" }}>
+                  <div
+                    style={{
+                      textAlign: "center",
+                      paddingTop: "10px",
+                      fontWeight: "bold",
+                      display: "flex",
+                      flexDirection: "column",
+                    }}
+                  >
+                    <span>
+                      {/*기관명: */}
+                      {orgInfo.name}
+                    </span>
+                    <span style={{ fontSize: "10pt", fontWeight: "normal" }}>
+                      {orgInfo.location}
+                    </span>
+                  </div>
+                  <img
+                    src={orgInfo.imageUrl}
+                    width="100%"
+                    height={200}
+                    style={{
+                      alignItems: "center",
+                      margin: "auto",
+                      paddingTop: "5px",
+                    }}
+                    alt=""
+                  />
+                </div>
+
+                <div
+                  style={{
+                    margin: "12px 20px 5px 20px",
+                    fontWeight: "bold",
+                    fontSize: "14pt",
+                    display: "flex",
+                    justifyContent: "center",
+                    textAlign: "center",
+                  }}
+                >
+                  <span>"{orgInfo.overview}"</span>
+                </div>
+                <div
+                  style={{
+                    marginLeft: "20px",
+                    marginRight: "20px",
+                    marginBottom: "5px",
+                    paddingBottom: "5px",
+                    borderBottom: "1px solid lightgrey",
+                  }}
+                >
+                  <span style={{ fontSize: "11pt" }}>
+                    {/*목표 금액: */}
+                    목표 모금액:{" "}
+                    <span style={{ fontWeight: "bold" }}>
+                      {orgInfo.targetAmount.toLocaleString()}원
+                    </span>
+                  </span>
+                </div>
+                <div
+                  style={{
+                    marginLeft: "20px",
+                    marginRight: "20px",
+                    fontSize: "11pt",
+                  }}
+                >
+                  <span>{orgInfo.description}</span>
+                </div>
                 {/* {orgInfo[0].description.map((d) => (
               <span>
                 {d}
@@ -143,11 +203,6 @@ export default function App() {
               </span>
             ))} */}
                 <br />
-                <span>기부 한 줄 요약: {orgInfo.overview}</span>
-                <br />
-                <span>
-                  목표 금액: {orgInfo.targetAmount.toLocaleString()}원
-                </span>
               </>
             )}
             {userData.currentDonationOrganization == "undefined" ? (
