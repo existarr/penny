@@ -15,6 +15,7 @@ import { React, useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { firestore } from "./firebase-config";
 import CircularProgress from "@mui/material/CircularProgress";
+import ryanIcon from "../assets/ryan_icon.png";
 
 //import data
 import user from "../data/users";
@@ -252,47 +253,66 @@ export default function GroupDonation() {
               padding: "0px",
             }}
           >
-            <div style={{ width: "100%" }}>
-              {currentDonationHistory.map((h) => {
-                return (
-                  <>
-                    <div
-                      style={{
-                        display: "flex",
-                        justifyContent: "space-between",
-                        borderBottom: "1px solid rgba(0, 0, 0, 0.1)",
-                        width: "100%",
-                        padding: "12px 20px",
-                      }}
-                    >
+            {currentDonationHistory.length == 0 ? (
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  height: "70%",
+                }}
+              >
+                <img src={ryanIcon} width={90} height={90} />
+                <span>모금 내역이 없습니다.</span>
+              </div>
+            ) : (
+              <div style={{ width: "100%" }}>
+                {currentDonationHistory.map((h) => {
+                  return (
+                    <>
                       <div
                         style={{
                           display: "flex",
-                          flexDirection: "column",
-                          paddingBottom: "5px",
+                          justifyContent: "space-between",
+                          borderBottom: "1px solid rgba(0, 0, 0, 0.1)",
+                          width: "100%",
+                          padding: "12px 20px",
                         }}
                       >
-                        <span>{h.date}</span>
-                        <span style={{ fontSize: "10pt", letterSpacing: 0.2 }}>
-                          {h.time}
-                        </span>
+                        <div
+                          style={{
+                            display: "flex",
+                            flexDirection: "column",
+                            paddingBottom: "5px",
+                          }}
+                        >
+                          <span>{h.date}</span>
+                          <span
+                            style={{ fontSize: "10pt", letterSpacing: 0.2 }}
+                          >
+                            {h.time}
+                          </span>
+                        </div>
+                        <div
+                          style={{
+                            display: "flex",
+                            flexDirection: "column",
+                            alignItems: "end",
+                            justifyContent: "center",
+                          }}
+                        >
+                          <span>{h.amount} 원</span>
+                          <span style={{ color: "grey" }}>
+                            {h.accumulate} 원
+                          </span>
+                        </div>
                       </div>
-                      <div
-                        style={{
-                          display: "flex",
-                          flexDirection: "column",
-                          alignItems: "end",
-                          justifyContent: "center",
-                        }}
-                      >
-                        <span>{h.amount} 원</span>
-                        <span style={{ color: "grey" }}>{h.accumulate} 원</span>
-                      </div>
-                    </div>
-                  </>
-                );
-              })}
-            </div>
+                    </>
+                  );
+                })}
+              </div>
+            )}
           </Container>
         </>
       )}
