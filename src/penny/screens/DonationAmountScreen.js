@@ -13,7 +13,7 @@ import {
 import Iconify from "../../components/iconify";
 import { useNavigate } from "react-router-dom";
 
-export default function KeypadPage() {
+export default function DonationAmountScreen() {
   const [inputValue, setInputValue] = useState(0);
   const [savedTargetAmount, setSavedTargetAmount] = useState(0);
   const navigate = useNavigate();
@@ -32,8 +32,8 @@ export default function KeypadPage() {
 
   const handleNextClick = () => {
     if (inputValue != 0) {
-      localStorage.setItem("target", inputValue);
-      navigate("/penny/checktarget");
+      localStorage.setItem("donationAmount", inputValue);
+      navigate("/penny/checkAmount");
     } else {
       setIsOpen(true);
     }
@@ -45,9 +45,9 @@ export default function KeypadPage() {
         <title>Keypad Page</title>
       </Helmet>
       <Dialog open={isOpen} onClose={() => setIsOpen(false)}>
-        <DialogTitle>목표 금액 설정 필요</DialogTitle>
+        <DialogTitle>모금액 설정 필요</DialogTitle>
         <DialogContent>
-          <p>목표 금액을 입력해 주세요.</p>
+          <p>모금액을 입력해 주세요.</p>
         </DialogContent>
         <DialogActions>
           <Button
@@ -392,7 +392,7 @@ export default function KeypadPage() {
       >
         <Button
           variant="contained"
-          onClick={handleNextClick}
+          onClick={() => handleNextClick()}
           style={{
             width: "50%",
             background: "#F7F7F7",

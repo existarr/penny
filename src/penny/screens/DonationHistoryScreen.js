@@ -104,7 +104,7 @@ export default function DonationHistory() {
             기부내역
           </span>
           <IconButton>
-            <Iconify icon="eva:settings-2-fill" style={{ color: "black" }} />
+            <Iconify icon="eva:settings-2-fill" style={{ color: "black", visibility: 'hidden' }} />
           </IconButton>
         </div>
         <div

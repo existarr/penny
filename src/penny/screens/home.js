@@ -201,6 +201,34 @@ const Home = () => {
     }
   };
 
+  const customDonationAmount = async () => {
+    const userRef = firestore.collection("user").doc(userId);
+    if (userData.currentDonationType == "single") {
+      if (userData.currentDonationAmount < userData.targetDonationAmount) {
+        navigate("/penny/donationAmount");
+      } else {
+        userRef
+          .update({
+            currentDonationOrganization: "undefined",
+            currentDonationAmount: 0,
+            targetDonationAmount: 0,
+          })
+          .then(setIsOverOpen(true));
+      }
+    } else {
+      if (organizationData.currentAmount < organizationData.targetAmount) {
+        navigate("/penny/donationAmount");
+      } else {
+        userRef
+          .update({
+            currentDonationOrganization: "undefined",
+            currentDonationAmount: 0,
+          })
+          .then(setIsOverOpen(true));
+      }
+    }
+  }
+
   useEffect(() => {
     const callData = async () => {
       setLoading(true);
@@ -700,6 +728,7 @@ const Home = () => {
                             color: "white",
                             boxShadow: "none", // remove shadow
                           }}
+                          onClick={() => customDonationAmount()}
                         >
                           <span style={{ fontWeight: "normal" }}>
                             모금 가능한 penny가 없습니다.{" "}
@@ -839,6 +868,7 @@ const Home = () => {
                                 color: "white",
                                 boxShadow: "none", // remove shadow
                               }}
+                              onClick={() => customDonationAmount()}
                             >
                               직접 입력 {">"}
                             </Button>
